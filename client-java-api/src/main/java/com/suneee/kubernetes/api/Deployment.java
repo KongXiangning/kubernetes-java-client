@@ -5,6 +5,7 @@ import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
 import com.suneee.kubernetes.http.ApiException;
+import com.suneee.kubernetes.model.V1DeleteOptions;
 import com.suneee.kubernetes.model.deployment.*;
 import okhttp3.Call;
 
@@ -20,7 +21,7 @@ public class Deployment {
         apiCommon = new ApiCommon(apiClient);
     }
 
-    public AppsV1beta1Deployment createNamespacedDeployment(String namespace, AppsV1beta1Deployment deployment) throws ApiException{
+    public ExtensionsV1beta1Deployment createNamespacedDeployment(String namespace, ExtensionsV1beta1Deployment deployment) throws ApiException{
 
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");
@@ -30,30 +31,34 @@ public class Deployment {
             throw new ApiException("Missing the required parameter 'V1Deployment'");
         }
 
-        String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments"
+        String localVarPath = "/apis/extensions/v1beta1/namespaces/{namespace}/deployments"
                 .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace));
 
         Call call = apiCommon.getCallPost(localVarPath,deployment);
-        Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
-        ApiResponse<AppsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
+        Type localVarReturnType = new TypeToken<ExtensionsV1beta1Deployment>(){}.getType();
+        ApiResponse<ExtensionsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
         return resp.getData();
     }
 
-    public AppsV1beta1Deployment getNamespaceDeploymentlist(String namespace)throws ApiException{
+    public ExtensionsV1beta1Deployment getNamespaceDeploymentlist(String namespace)throws ApiException{
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");
         }
-        String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments"
+        String localVarPath = "/apis/extensions/v1beta1/namespaces/{namespace}/deployments"
                  .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace));
 
         Call call = apiCommon.getCallGet(localVarPath);
-        Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
-        ApiResponse<AppsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
+        Type localVarReturnType = new TypeToken<ExtensionsV1beta1Deployment>(){}.getType();
+        ApiResponse<ExtensionsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
         return resp.getData();
     }
 
 
-    public AppsV1beta1Deployment deleteNamespaceDeployment(String namespace,String name) throws ApiException{
+    public ExtensionsV1beta1Deployment deleteNamespaceDeployment(String namespace,String name,V1DeleteOptions deleteOptions) throws ApiException{
+
+        if (deleteOptions == null){
+            deleteOptions = new V1DeleteOptions();
+        }
 
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");
@@ -62,13 +67,13 @@ public class Deployment {
             throw new ApiException("Missing the required parameter 'name'");
         }
 
-        String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}"
+        String localVarPath = "/apis/extensions/v1beta1/namespaces/{namespace}/deployments/{name}"
                 .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
                 .replaceAll("\\{"+"name"+"\\}",apiClient.escapeString(name));
 
-        Call call = apiCommon.getCallDelete(localVarPath,null);
-        Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
-        ApiResponse<AppsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
+        Call call = apiCommon.getCallDelete(localVarPath,deleteOptions);
+        Type localVarReturnType = new TypeToken<ExtensionsV1beta1Deployment>(){}.getType();
+        ApiResponse<ExtensionsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
         return resp.getData();
     }
 }
