@@ -32,7 +32,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "DEPRECATED - This group version of Deployment is deprecated by apps/v1beta2/Deployment. See the release notes for more information. Deployment enables declarative updates for Pods and ReplicaSets.")
 
-public class AppsV1beta1Deployment {
+public class ExtensionsV1beta1Deployment {
   @SerializedName("apiVersion")
   private String apiVersion = null;
 
@@ -43,31 +43,31 @@ public class AppsV1beta1Deployment {
   private V1ObjectMeta metadata = null;
 
   @SerializedName("spec")
-  private AppsV1beta1DeploymentSpec spec = null;
+  private ExtensionsV1beta1DeploymentSpec spec = null;
 
   @SerializedName("status")
-  private AppsV1beta1DeploymentStatus status = null;
+  private ExtensionsV1beta1DeploymentStatus status = null;
 
-  public AppsV1beta1Deployment apiVersion(String apiVersion) {
+  public ExtensionsV1beta1Deployment apiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
     return this;
   }
 
-  public AppsV1beta1Deployment(){
-    this.apiVersion = "apps/v1beta1";
+  public ExtensionsV1beta1Deployment(){
+    this.apiVersion = "extensions/v1beta1";
     this.kind = "Deployment";
     this.metadata = new V1ObjectMeta();
-    this.spec = new AppsV1beta1DeploymentSpec();
+    this.spec = new ExtensionsV1beta1DeploymentSpec();
   }
 
-  public AppsV1beta1Deployment(V1ObjectMeta metadata,AppsV1beta1DeploymentSpec spec){
-    this.apiVersion = "apps/v1beta1";
+  public ExtensionsV1beta1Deployment(V1ObjectMeta metadata,ExtensionsV1beta1DeploymentSpec spec){
+    this.apiVersion = "extensions/v1beta1";
     this.kind = "Deployment";
     this.metadata = metadata;
     this.spec = spec;
   }
 
-  public AppsV1beta1Deployment(String namespace,String name){
+  public ExtensionsV1beta1Deployment(String namespace,String name){
     this();
     setNamespace(namespace);
     setName(name);
@@ -99,41 +99,41 @@ public class AppsV1beta1Deployment {
     spec.getTemplate().getSpec().addContainersItem(container);
   }
 
-  public AppsV1beta1Deployment addEnv(String key,String value){
+  public ExtensionsV1beta1Deployment addEnv(String key,String value){
     return addEnv(0,key,value);
   }
 
-  public AppsV1beta1Deployment addEnv(int index,String key,String value){
+  public ExtensionsV1beta1Deployment addEnv(int index,String key,String value){
     if (spec.getTemplate().getSpec().getContainers().get(index) != null){
       spec.getTemplate().getSpec().getContainers().get(index).addEnvItem(new V1EnvVar(key,value));
     }
     return this;
   }
 
-  public AppsV1beta1Deployment addPort(Integer port){
+  public ExtensionsV1beta1Deployment addPort(Integer port){
     return addPort(0,port);
   }
 
-  public AppsV1beta1Deployment addPort(int index,Integer port){
+  public ExtensionsV1beta1Deployment addPort(int index,Integer port){
     if (spec.getTemplate().getSpec().getContainers().get(index) != null){
       spec.getTemplate().getSpec().getContainers().get(index).addPortsItem(new V1ContainerPort().containerPort(port));
     }
     return this;
   }
 
-  public AppsV1beta1Deployment setResource(String limitsCpu,String limitsmem){
+  public ExtensionsV1beta1Deployment setResource(String limitsCpu,String limitsmem){
     return setResource(0,limitsCpu,limitsmem);
   }
 
-  public AppsV1beta1Deployment setResource(String limitsCpu,String limitsmem,String requestsCpu,String requestsmen){
+  public ExtensionsV1beta1Deployment setResource(String limitsCpu,String limitsmem,String requestsCpu,String requestsmen){
     return setResource(0,limitsCpu,limitsmem,requestsCpu,requestsmen);
   }
 
-  public AppsV1beta1Deployment setResource(int index,String limitsCpu,String limitsmem){
+  public ExtensionsV1beta1Deployment setResource(int index,String limitsCpu,String limitsmem){
     return setResource(index,limitsCpu,limitsmem,null,null);
   }
 
-  public AppsV1beta1Deployment setResource(int index,String limitsCpu,String limitsmem,String requestsCpu,String requestsmen){
+  public ExtensionsV1beta1Deployment setResource(int index,String limitsCpu,String limitsmem,String requestsCpu,String requestsmen){
     if (spec.getTemplate().getSpec().getContainers().get(index) != null){
       V1ResourceRequirements resource = new V1ResourceRequirements();
       if (limitsCpu != null && !limitsCpu.isEmpty()){
@@ -200,7 +200,7 @@ public class AppsV1beta1Deployment {
     this.apiVersion = apiVersion;
   }
 
-  public AppsV1beta1Deployment kind(String kind) {
+  public ExtensionsV1beta1Deployment kind(String kind) {
     this.kind = kind;
     return this;
   }
@@ -218,7 +218,7 @@ public class AppsV1beta1Deployment {
     this.kind = kind;
   }
 
-  public AppsV1beta1Deployment metadata(V1ObjectMeta metadata) {
+  public ExtensionsV1beta1Deployment metadata(V1ObjectMeta metadata) {
     this.metadata = metadata;
     return this;
   }
@@ -236,7 +236,7 @@ public class AppsV1beta1Deployment {
     this.metadata = metadata;
   }
 
-  public AppsV1beta1Deployment spec(AppsV1beta1DeploymentSpec spec) {
+  public ExtensionsV1beta1Deployment spec(ExtensionsV1beta1DeploymentSpec spec) {
     this.spec = spec;
     return this;
   }
@@ -246,15 +246,15 @@ public class AppsV1beta1Deployment {
    * @return spec
   **/
   @ApiModelProperty(value = "Specification of the desired behavior of the Deployment.")
-  public AppsV1beta1DeploymentSpec getSpec() {
+  public ExtensionsV1beta1DeploymentSpec getSpec() {
     return spec;
   }
 
-  public void setSpec(AppsV1beta1DeploymentSpec spec) {
+  public void setSpec(ExtensionsV1beta1DeploymentSpec spec) {
     this.spec = spec;
   }
 
-  public AppsV1beta1Deployment status(AppsV1beta1DeploymentStatus status) {
+  public ExtensionsV1beta1Deployment status(ExtensionsV1beta1DeploymentStatus status) {
     this.status = status;
     return this;
   }
@@ -264,11 +264,11 @@ public class AppsV1beta1Deployment {
    * @return status
   **/
   @ApiModelProperty(value = "Most recently observed status of the Deployment.")
-  public AppsV1beta1DeploymentStatus getStatus() {
+  public ExtensionsV1beta1DeploymentStatus getStatus() {
     return status;
   }
 
-  public void setStatus(AppsV1beta1DeploymentStatus status) {
+  public void setStatus(ExtensionsV1beta1DeploymentStatus status) {
     this.status = status;
   }
 
@@ -281,12 +281,12 @@ public class AppsV1beta1Deployment {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AppsV1beta1Deployment appsV1beta1Deployment = (AppsV1beta1Deployment) o;
-    return Objects.equals(this.apiVersion, appsV1beta1Deployment.apiVersion) &&
-        Objects.equals(this.kind, appsV1beta1Deployment.kind) &&
-        Objects.equals(this.metadata, appsV1beta1Deployment.metadata) &&
-        Objects.equals(this.spec, appsV1beta1Deployment.spec) &&
-        Objects.equals(this.status, appsV1beta1Deployment.status);
+    ExtensionsV1beta1Deployment extensionsV1beta1Deployment = (ExtensionsV1beta1Deployment) o;
+    return Objects.equals(this.apiVersion, extensionsV1beta1Deployment.apiVersion) &&
+        Objects.equals(this.kind, extensionsV1beta1Deployment.kind) &&
+        Objects.equals(this.metadata, extensionsV1beta1Deployment.metadata) &&
+        Objects.equals(this.spec, extensionsV1beta1Deployment.spec) &&
+        Objects.equals(this.status, extensionsV1beta1Deployment.status);
   }
 
   @Override
@@ -298,7 +298,7 @@ public class AppsV1beta1Deployment {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AppsV1beta1Deployment {\n");
+    sb.append("class ExtensionsV1beta1Deployment {\n");
 
     sb.append("    apiVersion: ").append(toIndentedString(apiVersion)).append("\n");
     sb.append("    kind: ").append(toIndentedString(kind)).append("\n");

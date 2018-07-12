@@ -16,7 +16,7 @@ package com.suneee.kubernetes.model.deployment;
 import com.google.gson.annotations.SerializedName;
 import com.suneee.kubernetes.custom.IntOrString;
 import com.suneee.kubernetes.model.AppsV1beta1RollingUpdateDeployment;
-import com.suneee.kubernetes.model.rolling.V1RollingUpdateDeployment;
+import com.suneee.kubernetes.model.rolling.ExtensionsV1beta1RollingUpdateDeployment;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,22 +27,22 @@ import java.util.Objects;
  */
 @ApiModel(description = "DeploymentStrategy describes how to replace existing pods with new ones.")
 
-public class AppsV1beta1DeploymentStrategy {
+public class ExtensionsV1beta1DeploymentStrategy {
   @SerializedName("rollingUpdate")
-  private AppsV1beta1RollingUpdateDeployment rollingUpdate = null;
+  private ExtensionsV1beta1RollingUpdateDeployment rollingUpdate = null;
 
   @SerializedName("type")
   private String type = null;
 
-  public AppsV1beta1DeploymentStrategy rollingUpdate(AppsV1beta1RollingUpdateDeployment rollingUpdate) {
+  public ExtensionsV1beta1DeploymentStrategy rollingUpdate(ExtensionsV1beta1RollingUpdateDeployment rollingUpdate) {
     this.rollingUpdate = rollingUpdate;
     return this;
   }
 
-  public AppsV1beta1DeploymentStrategy(){
-    this.rollingUpdate = new AppsV1beta1RollingUpdateDeployment();
-    rollingUpdate.maxSurge(new IntOrString(2));
-    rollingUpdate.maxUnavailable(new IntOrString(1));
+  public ExtensionsV1beta1DeploymentStrategy(){
+    this.rollingUpdate = new ExtensionsV1beta1RollingUpdateDeployment();
+    rollingUpdate.maxSurge("2");
+    rollingUpdate.maxUnavailable("1");
   }
 
    /**
@@ -50,15 +50,15 @@ public class AppsV1beta1DeploymentStrategy {
    * @return rollingUpdate
   **/
   @ApiModelProperty(value = "Rolling update config params. Present only if DeploymentStrategyType = RollingUpdate.")
-  public AppsV1beta1RollingUpdateDeployment getRollingUpdate() {
+  public ExtensionsV1beta1RollingUpdateDeployment getRollingUpdate() {
     return rollingUpdate;
   }
 
-  public void setRollingUpdate(AppsV1beta1RollingUpdateDeployment rollingUpdate) {
+  public void setRollingUpdate(ExtensionsV1beta1RollingUpdateDeployment rollingUpdate) {
     this.rollingUpdate = rollingUpdate;
   }
 
-  public AppsV1beta1DeploymentStrategy type(String type) {
+  public ExtensionsV1beta1DeploymentStrategy type(String type) {
     this.type = type;
     return this;
   }
@@ -85,9 +85,9 @@ public class AppsV1beta1DeploymentStrategy {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AppsV1beta1DeploymentStrategy appsV1beta1DeploymentStrategy = (AppsV1beta1DeploymentStrategy) o;
-    return Objects.equals(this.rollingUpdate, appsV1beta1DeploymentStrategy.rollingUpdate) &&
-        Objects.equals(this.type, appsV1beta1DeploymentStrategy.type);
+    ExtensionsV1beta1DeploymentStrategy extensionsV1beta1DeploymentStrategy = (ExtensionsV1beta1DeploymentStrategy) o;
+    return Objects.equals(this.rollingUpdate, extensionsV1beta1DeploymentStrategy.rollingUpdate) &&
+        Objects.equals(this.type, extensionsV1beta1DeploymentStrategy.type);
   }
 
   @Override
@@ -99,7 +99,7 @@ public class AppsV1beta1DeploymentStrategy {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AppsV1beta1DeploymentStrategy {\n");
+    sb.append("class ExtensionsV1beta1DeploymentStrategy {\n");
 
     sb.append("    rollingUpdate: ").append(toIndentedString(rollingUpdate)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");

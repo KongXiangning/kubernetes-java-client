@@ -14,9 +14,9 @@
 package com.suneee.kubernetes.model.deployment;
 
 import com.google.gson.annotations.SerializedName;
-import com.suneee.kubernetes.model.AppsV1beta1RollbackConfig;
 import com.suneee.kubernetes.model.label.V1LabelSelector;
 import com.suneee.kubernetes.model.pod.V1PodTemplateSpec;
+import com.suneee.kubernetes.model.rolling.ExtensionsV1beta1RollbackConfig;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -27,7 +27,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "DeploymentSpec is the specification of the desired behavior of the Deployment.")
 
-public class AppsV1beta1DeploymentSpec {
+public class ExtensionsV1beta1DeploymentSpec {
   @SerializedName("minReadySeconds")
   private Integer minReadySeconds = null;
 
@@ -44,26 +44,26 @@ public class AppsV1beta1DeploymentSpec {
   private Integer revisionHistoryLimit = null;
 
   @SerializedName("rollbackTo")
-  private AppsV1beta1RollbackConfig rollbackTo = null;
+  private ExtensionsV1beta1RollbackConfig rollbackTo = null;
 
   @SerializedName("selector")
   private V1LabelSelector selector = null;
 
   @SerializedName("strategy")
-  private AppsV1beta1DeploymentStrategy strategy = null;
+  private ExtensionsV1beta1DeploymentStrategy strategy = null;
 
   @SerializedName("template")
   private V1PodTemplateSpec template = null;
 
-  public AppsV1beta1DeploymentSpec minReadySeconds(Integer minReadySeconds) {
+  public ExtensionsV1beta1DeploymentSpec minReadySeconds(Integer minReadySeconds) {
     this.minReadySeconds = minReadySeconds;
     return this;
   }
 
-  public AppsV1beta1DeploymentSpec(){
+  public ExtensionsV1beta1DeploymentSpec(){
     this.replicas = 2;
     this.revisionHistoryLimit = 5;
-    strategy = new AppsV1beta1DeploymentStrategy();
+    strategy = new ExtensionsV1beta1DeploymentStrategy();
     template = new V1PodTemplateSpec();
   }
 
@@ -80,16 +80,16 @@ public class AppsV1beta1DeploymentSpec {
     this.minReadySeconds = minReadySeconds;
   }
 
-  public AppsV1beta1DeploymentSpec paused(Boolean paused) {
+  public ExtensionsV1beta1DeploymentSpec paused(Boolean paused) {
     this.paused = paused;
     return this;
   }
 
    /**
-   * Indicates that the deployment is paused.
+   * Indicates that the deployment is paused and will not be processed by the deployment controller.
    * @return paused
   **/
-  @ApiModelProperty(value = "Indicates that the deployment is paused.")
+  @ApiModelProperty(value = "Indicates that the deployment is paused and will not be processed by the deployment controller.")
   public Boolean isPaused() {
     return paused;
   }
@@ -98,16 +98,16 @@ public class AppsV1beta1DeploymentSpec {
     this.paused = paused;
   }
 
-  public AppsV1beta1DeploymentSpec progressDeadlineSeconds(Integer progressDeadlineSeconds) {
+  public ExtensionsV1beta1DeploymentSpec progressDeadlineSeconds(Integer progressDeadlineSeconds) {
     this.progressDeadlineSeconds = progressDeadlineSeconds;
     return this;
   }
 
    /**
-   * The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to 600s.
+   * The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. This is not set by default.
    * @return progressDeadlineSeconds
   **/
-  @ApiModelProperty(value = "The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to 600s.")
+  @ApiModelProperty(value = "The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. This is not set by default.")
   public Integer getProgressDeadlineSeconds() {
     return progressDeadlineSeconds;
   }
@@ -116,7 +116,7 @@ public class AppsV1beta1DeploymentSpec {
     this.progressDeadlineSeconds = progressDeadlineSeconds;
   }
 
-  public AppsV1beta1DeploymentSpec replicas(Integer replicas) {
+  public ExtensionsV1beta1DeploymentSpec replicas(Integer replicas) {
     this.replicas = replicas;
     return this;
   }
@@ -134,16 +134,16 @@ public class AppsV1beta1DeploymentSpec {
     this.replicas = replicas;
   }
 
-  public AppsV1beta1DeploymentSpec revisionHistoryLimit(Integer revisionHistoryLimit) {
+  public ExtensionsV1beta1DeploymentSpec revisionHistoryLimit(Integer revisionHistoryLimit) {
     this.revisionHistoryLimit = revisionHistoryLimit;
     return this;
   }
 
    /**
-   * The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 2.
+   * The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified.
    * @return revisionHistoryLimit
   **/
-  @ApiModelProperty(value = "The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 2.")
+  @ApiModelProperty(value = "The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified.")
   public Integer getRevisionHistoryLimit() {
     return revisionHistoryLimit;
   }
@@ -152,7 +152,7 @@ public class AppsV1beta1DeploymentSpec {
     this.revisionHistoryLimit = revisionHistoryLimit;
   }
 
-  public AppsV1beta1DeploymentSpec rollbackTo(AppsV1beta1RollbackConfig rollbackTo) {
+  public ExtensionsV1beta1DeploymentSpec rollbackTo(ExtensionsV1beta1RollbackConfig rollbackTo) {
     this.rollbackTo = rollbackTo;
     return this;
   }
@@ -162,15 +162,15 @@ public class AppsV1beta1DeploymentSpec {
    * @return rollbackTo
   **/
   @ApiModelProperty(value = "DEPRECATED. The config this deployment is rolling back to. Will be cleared after rollback is done.")
-  public AppsV1beta1RollbackConfig getRollbackTo() {
+  public ExtensionsV1beta1RollbackConfig getRollbackTo() {
     return rollbackTo;
   }
 
-  public void setRollbackTo(AppsV1beta1RollbackConfig rollbackTo) {
+  public void setRollbackTo(ExtensionsV1beta1RollbackConfig rollbackTo) {
     this.rollbackTo = rollbackTo;
   }
 
-  public AppsV1beta1DeploymentSpec selector(V1LabelSelector selector) {
+  public ExtensionsV1beta1DeploymentSpec selector(V1LabelSelector selector) {
     this.selector = selector;
     return this;
   }
@@ -188,7 +188,7 @@ public class AppsV1beta1DeploymentSpec {
     this.selector = selector;
   }
 
-  public AppsV1beta1DeploymentSpec strategy(AppsV1beta1DeploymentStrategy strategy) {
+  public ExtensionsV1beta1DeploymentSpec strategy(ExtensionsV1beta1DeploymentStrategy strategy) {
     this.strategy = strategy;
     return this;
   }
@@ -198,15 +198,15 @@ public class AppsV1beta1DeploymentSpec {
    * @return strategy
   **/
   @ApiModelProperty(value = "The deployment strategy to use to replace existing pods with new ones.")
-  public AppsV1beta1DeploymentStrategy getStrategy() {
+  public ExtensionsV1beta1DeploymentStrategy getStrategy() {
     return strategy;
   }
 
-  public void setStrategy(AppsV1beta1DeploymentStrategy strategy) {
+  public void setStrategy(ExtensionsV1beta1DeploymentStrategy strategy) {
     this.strategy = strategy;
   }
 
-  public AppsV1beta1DeploymentSpec template(V1PodTemplateSpec template) {
+  public ExtensionsV1beta1DeploymentSpec template(V1PodTemplateSpec template) {
     this.template = template;
     return this;
   }
@@ -233,16 +233,16 @@ public class AppsV1beta1DeploymentSpec {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AppsV1beta1DeploymentSpec appsV1beta1DeploymentSpec = (AppsV1beta1DeploymentSpec) o;
-    return Objects.equals(this.minReadySeconds, appsV1beta1DeploymentSpec.minReadySeconds) &&
-        Objects.equals(this.paused, appsV1beta1DeploymentSpec.paused) &&
-        Objects.equals(this.progressDeadlineSeconds, appsV1beta1DeploymentSpec.progressDeadlineSeconds) &&
-        Objects.equals(this.replicas, appsV1beta1DeploymentSpec.replicas) &&
-        Objects.equals(this.revisionHistoryLimit, appsV1beta1DeploymentSpec.revisionHistoryLimit) &&
-        Objects.equals(this.rollbackTo, appsV1beta1DeploymentSpec.rollbackTo) &&
-        Objects.equals(this.selector, appsV1beta1DeploymentSpec.selector) &&
-        Objects.equals(this.strategy, appsV1beta1DeploymentSpec.strategy) &&
-        Objects.equals(this.template, appsV1beta1DeploymentSpec.template);
+    ExtensionsV1beta1DeploymentSpec extensionsV1beta1DeploymentSpec = (ExtensionsV1beta1DeploymentSpec) o;
+    return Objects.equals(this.minReadySeconds, extensionsV1beta1DeploymentSpec.minReadySeconds) &&
+        Objects.equals(this.paused, extensionsV1beta1DeploymentSpec.paused) &&
+        Objects.equals(this.progressDeadlineSeconds, extensionsV1beta1DeploymentSpec.progressDeadlineSeconds) &&
+        Objects.equals(this.replicas, extensionsV1beta1DeploymentSpec.replicas) &&
+        Objects.equals(this.revisionHistoryLimit, extensionsV1beta1DeploymentSpec.revisionHistoryLimit) &&
+        Objects.equals(this.rollbackTo, extensionsV1beta1DeploymentSpec.rollbackTo) &&
+        Objects.equals(this.selector, extensionsV1beta1DeploymentSpec.selector) &&
+        Objects.equals(this.strategy, extensionsV1beta1DeploymentSpec.strategy) &&
+        Objects.equals(this.template, extensionsV1beta1DeploymentSpec.template);
   }
 
   @Override
@@ -254,7 +254,7 @@ public class AppsV1beta1DeploymentSpec {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AppsV1beta1DeploymentSpec {\n");
+    sb.append("class ExtensionsV1beta1DeploymentSpec {\n");
 
     sb.append("    minReadySeconds: ").append(toIndentedString(minReadySeconds)).append("\n");
     sb.append("    paused: ").append(toIndentedString(paused)).append("\n");
