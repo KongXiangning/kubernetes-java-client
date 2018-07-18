@@ -77,6 +77,10 @@ public class ApiCommon {
         return getCallnoListener(localVarPath,"POST",localVarPostBody);
     }
 
+    public Call getCallPut(final String localVarPath,final Object localVarPostBody)throws ApiException{
+        return getCallnoListener(localVarPath,"PUT",localVarPostBody);
+    }
+
     public Call getCallDelete(final String localVarPath,final Object localVarPostBody)throws ApiException{
         return getCallnoListener(localVarPath,"DELETE",localVarPostBody);
     }

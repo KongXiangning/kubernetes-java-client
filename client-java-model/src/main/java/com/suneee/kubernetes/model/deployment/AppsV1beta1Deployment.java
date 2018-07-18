@@ -14,6 +14,7 @@
 package com.suneee.kubernetes.model.deployment;
 
 import com.google.gson.annotations.SerializedName;
+import com.suneee.kubernetes.constant.ImagePullPolicy;
 import com.suneee.kubernetes.custom.IntOrString;
 import com.suneee.kubernetes.custom.Quantity;
 import com.suneee.kubernetes.model.*;
@@ -22,10 +23,7 @@ import com.suneee.kubernetes.model.container.V1ContainerPort;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * DEPRECATED - This group version of Deployment is deprecated by apps/v1beta2/Deployment. See the release notes for more information. Deployment enables declarative updates for Pods and ReplicaSets.
@@ -140,13 +138,13 @@ public class AppsV1beta1Deployment {
         resource.putLimitsItem("cpu",new Quantity(limitsCpu));
       }
       if (limitsmem != null && !limitsmem.isEmpty()){
-        resource.putLimitsItem("menory",new Quantity(limitsmem));
+        resource.putLimitsItem("memory",new Quantity(limitsmem));
       }
       if (requestsCpu != null && !requestsCpu.isEmpty()){
         resource.putRequestsItem("cpu",new Quantity(requestsCpu));
       }
       if (requestsmen != null && !requestsmen.isEmpty()){
-        resource.putRequestsItem("menory",new Quantity(requestsmen));
+        resource.putRequestsItem("memory",new Quantity(requestsmen));
       }
       spec.getTemplate().getSpec().getContainers().get(index).resources(resource);
     }
@@ -161,11 +159,21 @@ public class AppsV1beta1Deployment {
     addContainer(name,imagesName,portList,null,null);
   }
 
+  public void addContainer(String name,String imagesName,List<Integer> portList,HashMap<String,String> envs){
+    addContainer(name,imagesName,portList,envs,null);
+  }
+
+  public void addContainer(String name,String imagesName,Integer port,HashMap<String,String> envs){
+    List<Integer> portList = new ArrayList<Integer>();
+    portList.add(port);
+    addContainer(name,imagesName,portList,envs,null);
+  }
+
   public void addContainer(String name, String imagesName, List<Integer> portList,HashMap<String,String> envs,V1ResourceRequirements resource){
     V1Container container = new V1Container();
     container.setName(name);
     container.setImage(imagesName);
-    container.setImagePullPolicy("Always");
+    container.setImagePullPolicy(ImagePullPolicy.IfNotPresent);
     if (portList != null && portList.size()>0){
       for (Integer port : portList) {
         container.addPortsItem(new V1ContainerPort().containerPort(port));
@@ -294,6 +302,13 @@ public class AppsV1beta1Deployment {
     return Objects.hash(apiVersion, kind, metadata, spec, status);
   }
 
+  public String getNamespace(){
+    return metadata.getNamespace();
+  }
+
+  public String getName(){
+    return metadata.getName();
+  }
 
   @Override
   public String toString() {

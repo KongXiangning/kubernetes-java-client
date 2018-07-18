@@ -7,15 +7,16 @@ import com.suneee.kubernetes.http.ApiClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.pod.V1Pod;
 import com.suneee.kubernetes.model.pod.V1PodList;
+import com.suneee.kubernetes.model.pod.V1PodStatus;
 import okhttp3.Call;
 
 import java.lang.reflect.Type;
 
-public class Pod {
+public class PodApi {
     private ApiClient apiClient;
     private ApiCommon apiCommon;
 
-    public Pod(){
+    public PodApi(){
         apiClient = ApiClient.getApiClient();
         apiCommon = new ApiCommon(apiClient);
     }
@@ -38,6 +39,26 @@ public class Pod {
 
         Type localVarReturnType = new TypeToken<V1Pod>(){}.getType();
         ApiResponse<V1Pod> resp = apiClient.execute(call, localVarReturnType);
+        return resp.getData();
+    }
+
+    public V1PodStatus getPodStatus(String namespace,String podname) throws ApiException{
+        if (namespace == null || namespace.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'namespace'");
+        }
+
+        if (podname == null || podname.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'podname'");
+        }
+
+        String localVarPath = "/api/v1/namespaces/{namespace}/pods/{name}/status"
+                .replaceAll("\\{namespace\\}", apiClient.escapeString(namespace))
+                .replaceAll("\\{name\\}", apiClient.escapeString(podname));
+
+        Call call = apiCommon.getCallGet(localVarPath);
+
+        Type localVarReturnType = new TypeToken<V1PodStatus>(){}.getType();
+        ApiResponse<V1PodStatus> resp = apiClient.execute(call, localVarReturnType);
         return resp.getData();
     }
 

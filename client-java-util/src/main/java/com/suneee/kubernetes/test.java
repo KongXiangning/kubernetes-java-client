@@ -1,21 +1,23 @@
 package com.suneee.kubernetes;
 
 import com.google.gson.Gson;
-import com.suneee.kubernetes.api.Deployment;
-import com.suneee.kubernetes.api.Namespace;
-import com.suneee.kubernetes.api.Pod;
+import com.suneee.kubernetes.api.*;
 import com.suneee.kubernetes.auth.ApiKeyAuth;
+import com.suneee.kubernetes.constant.ImagePullPolicy;
+import com.suneee.kubernetes.constant.KindType;
 import com.suneee.kubernetes.http.ApiClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.http.JSON;
 import com.suneee.kubernetes.model.V1ObjectMeta;
-import com.suneee.kubernetes.model.deployment.V1Deployment;
+import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
+import com.suneee.kubernetes.model.event.V1Event;
+import com.suneee.kubernetes.model.event.V1EventList;
 import com.suneee.kubernetes.model.namespace.V1Namespace;
-import com.suneee.kubernetes.model.namespace.V1NamespaceList;
-import com.suneee.kubernetes.model.pod.V1Pod;
+import com.suneee.kubernetes.model.pod.V1PodList;
+import com.suneee.kubernetes.model.service.V1Service;
+import com.suneee.kubernetes.services.AppApi;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.stream.events.Namespace;
 
 public class test {
 
@@ -43,17 +45,19 @@ public class test {
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
 
-        String json = "{\"apiVersion\": \"v1\",\"kind\": \"Namespace\",\"metadata\": {\"name\": \"testdev\"}}";
+        *//*String json = "{\"apiVersion\": \"v1\",\"kind\": \"Namespace\",\"metadata\": {\"name\": \"testdev\"}}";
         V1Namespace v1Namespace = new V1Namespace();
         v1Namespace.setApiVersion("v1");
         v1Namespace.setKind("Namespace");
         V1ObjectMeta meta = new V1ObjectMeta();
         meta.setName("optest");
-        v1Namespace.setMetadata(meta);
+        v1Namespace.setMetadata(meta);*//*
 
-        Namespace instance = new Namespace();
+        V1Namespace v1Namespace = new V1Namespace("testdev");
+
+        NamespaceApi instance = new NamespaceApi();
         try {
-            V1Namespace result = instance.createNamespaceDeployment("optest",v1Namespace,"true",null,null);
+            V1Namespace result = instance.createNamespaceDeployment(v1Namespace);
             System.out.println(result);
         } catch (ApiException e) {
             e.printStackTrace();
@@ -76,38 +80,159 @@ public class test {
         }
     }*/
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) throws ApiException {
         ApiClient apiClient = ApiClient.getApiClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
 
-        String yaml = "{ apiVersion: 'apps/v1beta1',kind: 'Deployment',metadata: { name: 'mytest', namespace: 'optest' },spec: { replicas: 2,template:{ metadata: { labels: { app: 'mytest' } },spec:{ containers:[ { name: 'mytest',image: 'tomcat:v1',imagePullPolicy: 'IfNotPresent',ports: [ { containerPort: 8080 } ] } ] } } } }";
-        Gson gson = new JSON().getGson();
-        V1Deployment deployment = gson.fromJson(yaml,V1Deployment.class);
+        *//*Namespace namespaceApi = new Namespace();
+        namespaceApi.createNamespaceDeployment(new V1Namespace("devtest"));*//*
 
-        System.out.println(deployment);
-        /*V1Deployment body = new V1Deployment();
+        *//*String yaml = "{ apiVersion: 'apps/v1beta1',kind: 'Deployment',metadata: { name: 'mytest', namespace: 'devtest' },spec: { replicas: 2,template:{ metadata: { labels: { app: 'mytest' } },spec:{ containers:[ { name: 'mytest',image: 'tomcat:v1',imagePullPolicy: 'IfNotPresent',ports: [ { containerPort: 8080 } ] } ] } } } }";
+        Gson gson = new JSON().getGson();
+        AppsV1beta1Deployment deployment = gson.fromJson(yaml,AppsV1beta1Deployment.class);
+
+        System.out.println(deployment);*//*
+        *//*V1Deployment body = new V1Deployment();
         body.setApiVersion("extensions/v1beta1");
         body.setKind("Deployment");
         V1ObjectMeta meta = new V1ObjectMeta();
         meta.setName("myweb");
         meta.setNamespace("optest");
-        body.setMetadata(meta);*/
+        body.setMetadata(meta);*//*
 
-        /*V1Deployment deployment = new V1Deployment("optest","testweb");
+        AppsV1beta1Deployment deployment = new AppsV1beta1Deployment("devtest","mytest");
 
         deployment.addContainer("testweb","tomcat:v1");
         deployment.addPort(8080).addPort(80);
-        deployment.addEnv("JENV","test").addEnv("po","test");*/
+        deployment.addEnv("JENV","test").addEnv("po","test");
+        deployment.getSpec().getTemplate().getSpec().getContainers().get(0).setImagePullPolicy(ImagePullPolicy.IfNotPresent);
+        deployment.setReplicas(3);
 
         System.out.println(deployment);
 
         Deployment instance = new Deployment();
         try {
 //            V1Deployment result = instance.deleteNamespaceDeployment(deployment.getMetadata().getNamespace(),deployment);
-            V1Deployment result = instance.createNamespacedDeployment(deployment.getMetadata().getNamespace(),deployment);
+//            AppsV1beta1Deployment result = instance.createNamespaceDeployment(deployment.getNamespace(),deployment);
+            AppsV1beta1Deployment r = instance.updateNamespaceDeployment(deployment.getNamespace(),deployment.getName(),deployment);
+//            AppsV1beta1Deployment result1 = instance.deleteNamespaceDeployment("devtest","mytest",null);
+
+            System.out.println(r);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    /*public static void main(String[] args) {
+        ApiClient apiClient = ApiClient.getApiClient();
+        apiClient.setBasePath("https://192.168.29.100:6443");
+        ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
+        BearerToken.setApiKey(value);
+
+        V1Service v1Service = new V1Service("devtest","mytest");
+        v1Service.addPort("mytest-sv",8080,8080);
+        v1Service.setSelector("app","mytest");
+
+        System.out.println(v1Service);
+
+        Gson gson = new JSON().getGson();
+        String json = gson.toJson(v1Service);
+        System.out.println(json);
+
+        ServiceApi instance = new ServiceApi();
+        try {
+//            V1Service result = instance.createService("devtest",v1Service);
+//            V1Service result = instance.getServiceByName("testdev","myweb");
+//            V1ServiceList result = instance.getServiceList("testdev");
+            V1Service result = instance.deleteService("devtest","mytest");
             System.out.println(result);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+
+    }*/
+
+    /*public static void main(String[] args) {
+        ApiClient apiClient = ApiClient.getApiClient();
+        apiClient.setBasePath("https://192.168.29.100:6443");
+        ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
+        BearerToken.setApiKey(value);
+        AppApi instance = new AppApi();
+        try {
+//            String imagesName = "tomcat";//
+            String imagesName = "172.16.36.69:5000/root/tomcatdev:v1";
+            Integer imagePort = 8080;
+            instance.createDeploymentService("testdev","myweb",imagesName,"ingress.tomcat.com",imagePort,null,"1","1Gi");
+//            instance.deleteDeploymentService("testdev","myweb");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+
+//        DeploymentApi deploymentApi = new DeploymentApi();
+//        try {
+//            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentByName("testdev","myweb");
+//            deployment.getSpec().getTemplate().getSpec().getContainers().get(0).setImagePullPolicy(ImagePullPolicy.IfNotPresent);
+//            deployment.getSpec().getTemplate().getSpec().getContainers().get(0).setImage("tomcat");
+//            deploymentApi.updateNamespaceDeployment("testdev","myweb",deployment);
+//
+//        } catch (ApiException e) {
+//            e.printStackTrace();
+//        }
+//
+//        ServiceApi serviceApi = new ServiceApi();
+//        try {
+//            V1Service service = serviceApi.deleteService("testdev","myweb");
+////            V1Service service = serviceApi.getServiceByName("testdev","myweb");
+//            System.out.println(service);
+//        } catch (ApiException e) {
+//            e.printStackTrace();
+//        }
+    }*/
+
+    public static void main(String[] args) {
+        ApiClient apiClient = ApiClient.getApiClient();
+        apiClient.setBasePath("https://192.168.29.100:6443");
+        ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
+        BearerToken.setApiKey(value);
+
+        EventApi eventApi = new EventApi();
+        DeploymentApi deploymentApi = new DeploymentApi();
+        PodApi podApi = new PodApi();
+
+        try {
+            /*V1EventList v1EventList = eventApi.getEventList("testdev");
+            System.out.println(v1EventList.getItems().size());
+            for (int i = 0; i < v1EventList.getItems().size(); i++) {
+                V1Event event = v1EventList.getItems().get(i);
+                if (event.getInvolvedObject().getKind().equalsIgnoreCase("Pod")&&event.getInvolvedObject().getName().equals("myweb-746c75bf7f-5jn7m")){
+                    System.out.println(event.getType()+"|"+event.getReason()+"|"+event.getMessage());
+                }
+            }
+            System.out.println(v1EventList);*/
+            String namespace = "testdev";
+            String label = "myweb";
+            String name = "myweb";
+            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentByName(namespace,name);
+            System.out.println();
+            for (int i = 0; i < deployment.getSpec().getTemplate().getSpec().getContainers().size(); i++) {
+                System.out.println();
+
+            }
+
+            V1PodList podList = podApi.getPodListByLabel(namespace,label);
+            for (int i = 0; i < podList.getItems().size(); i++) {
+                String podName = podList.getItems().get(i).getMetadata().getName();
+                System.out.println("podName:"+podName);
+
+                V1EventList eventList = eventApi.getEventListByName(namespace,podName,KindType.POD);
+
+                for (int j = 0; j < eventList.getItems().size(); j++) {
+                    V1Event event = eventList.getItems().get(j);
+                    System.out.println(event.getType()+"|"+event.getReason()+"|"+event.getMessage());
+                }
+            }
         } catch (ApiException e) {
             e.printStackTrace();
         }

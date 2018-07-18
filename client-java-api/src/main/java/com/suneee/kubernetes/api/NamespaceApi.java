@@ -12,12 +12,12 @@ import okhttp3.Call;
 
 import java.lang.reflect.Type;
 
-public class Namespace {
+public class NamespaceApi {
 
     private ApiClient apiClient;
     private ApiCommon apiCommon;
 
-    public Namespace(){
+    public NamespaceApi(){
         apiClient = ApiClient.getApiClient();
         apiCommon = new ApiCommon(apiClient);
     }

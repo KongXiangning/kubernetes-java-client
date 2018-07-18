@@ -18,9 +18,7 @@ import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Endpoints is a collection of endpoints that implement the actual service. Example:   Name: \&quot;mysvc\&quot;,   Subsets: [     {       Addresses: [{\&quot;ip\&quot;: \&quot;10.10.1.1\&quot;}, {\&quot;ip\&quot;: \&quot;10.10.2.2\&quot;}],       Ports: [{\&quot;name\&quot;: \&quot;a\&quot;, \&quot;port\&quot;: 8675}, {\&quot;name\&quot;: \&quot;b\&quot;, \&quot;port\&quot;: 309}]     },     {       Addresses: [{\&quot;ip\&quot;: \&quot;10.10.3.3\&quot;}],       Ports: [{\&quot;name\&quot;: \&quot;a\&quot;, \&quot;port\&quot;: 93}, {\&quot;name\&quot;: \&quot;b\&quot;, \&quot;port\&quot;: 76}]     },  ]
@@ -43,6 +41,38 @@ public class V1Endpoints {
   public V1Endpoints apiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
     return this;
+  }
+
+  public V1Endpoints(){
+    this.apiVersion = "v1";
+    this.kind = "Endpoints";
+    this.metadata = new V1ObjectMeta();
+  }
+
+  public V1Endpoints(String namespace,String name){
+    this();
+    setNamespace(namespace);
+    setName(name);
+  }
+
+  public V1Endpoints setNamespace(String namespace){
+    metadata.setNamespace(namespace);
+    return this;
+  }
+
+  public V1Endpoints setName(String name){
+    metadata.setName(name);
+    Map<String,String> labels = new HashMap<>();
+    labels.put("app",name);
+    metadata.setLabels(labels);
+    return this;
+  }
+
+  public V1Endpoints addSubset(String addr,Integer port){
+    V1EndpointSubset subset = new V1EndpointSubset();
+    subset.addAddressesItem(new V1EndpointAddress().ip(addr));
+    subset.addPortsItem(new V1EndpointPort().port(port));
+    return addSubsetsItem(subset);
   }
 
    /**

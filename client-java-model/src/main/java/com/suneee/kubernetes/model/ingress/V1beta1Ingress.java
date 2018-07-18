@@ -14,10 +14,13 @@
 package com.suneee.kubernetes.model.ingress;
 
 import com.google.gson.annotations.SerializedName;
+import com.suneee.kubernetes.custom.IntOrString;
 import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -43,6 +46,42 @@ public class V1beta1Ingress {
 
   public V1beta1Ingress apiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
+    return this;
+  }
+
+  public V1beta1Ingress(){
+    apiVersion = "extensions/v1beta1";
+    kind = "Ingress";
+    metadata = new V1ObjectMeta();
+    spec = new V1beta1IngressSpec();
+  }
+
+  public V1beta1Ingress(String namespace,String name){
+    this();
+    setNamespace(namespace);
+    setName(name);
+  }
+
+  public V1beta1Ingress setNamespace(String namespace){
+    metadata.setNamespace(namespace);
+    return this;
+  }
+
+  public V1beta1Ingress setName(String name){
+    metadata.setName(name);
+    Map<String,String> labels = new HashMap<>();
+    labels.put("app",name);
+    metadata.setLabels(labels);
+    return this;
+  }
+
+  public V1beta1Ingress addRule(String host,String serviceName,Integer servicePort){
+    V1beta1IngressRule rule = new V1beta1IngressRule().host(host);
+    V1beta1IngressBackend backend = new V1beta1IngressBackend().serviceName(serviceName).servicePort(new IntOrString(servicePort));
+    V1beta1HTTPIngressPath path = new V1beta1HTTPIngressPath().backend(backend);
+    V1beta1HTTPIngressRuleValue ruleValue = new V1beta1HTTPIngressRuleValue().addPathsItem(path);
+    rule.http(ruleValue);
+    spec.addRulesItem(rule);
     return this;
   }
 

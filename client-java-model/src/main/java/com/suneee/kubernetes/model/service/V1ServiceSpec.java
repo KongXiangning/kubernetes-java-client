@@ -14,6 +14,7 @@
 package com.suneee.kubernetes.model.service;
 
 import com.google.gson.annotations.SerializedName;
+import com.suneee.kubernetes.constant.ServiceType;
 import com.suneee.kubernetes.model.V1SessionAffinityConfig;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -68,6 +69,11 @@ public class V1ServiceSpec {
   public V1ServiceSpec clusterIP(String clusterIP) {
     this.clusterIP = clusterIP;
     return this;
+  }
+
+  public V1ServiceSpec(){
+    this.type = ServiceType.NodePort;
+
   }
 
    /**

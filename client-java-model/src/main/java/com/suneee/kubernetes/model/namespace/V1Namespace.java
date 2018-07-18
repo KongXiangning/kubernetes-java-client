@@ -46,6 +46,22 @@ public class V1Namespace {
     return this;
   }
 
+  public V1Namespace(){
+    this.apiVersion = "v1";
+    this.kind = "Namespace";
+    this.metadata = new V1ObjectMeta();
+  }
+
+  public V1Namespace(String name){
+    this();
+    setName(name);
+  }
+
+  public V1Namespace setName(String name){
+    metadata.setName(name);
+    return this;
+  }
+
    /**
    * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
    * @return apiVersion

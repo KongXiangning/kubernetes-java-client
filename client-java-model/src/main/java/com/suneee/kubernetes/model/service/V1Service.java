@@ -14,10 +14,14 @@
 package com.suneee.kubernetes.model.service;
 
 import com.google.gson.annotations.SerializedName;
+import com.suneee.kubernetes.constant.ServiceType;
+import com.suneee.kubernetes.custom.IntOrString;
 import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -43,6 +47,84 @@ public class V1Service {
 
   public V1Service apiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
+    return this;
+  }
+
+  public V1Service(){
+    this.apiVersion = "v1";
+    this.kind = "Service";
+    this.metadata = new V1ObjectMeta();
+    this.spec = new V1ServiceSpec();
+  }
+
+  public V1Service(V1ObjectMeta metadata,V1ServiceSpec spec){
+    this.apiVersion = "v1";
+    this.kind = "Service";
+    this.metadata = metadata;
+    this.spec = spec;
+  }
+
+  public V1Service(String namespace,String name){
+    this();
+    setNamespace(namespace);
+    setName(name);
+  }
+
+  public V1Service setNamespace(String namespace){
+    metadata.setNamespace(namespace);
+    return this;
+  }
+
+  public String getNamespace(){
+    return metadata.getNamespace();
+  }
+
+  public V1Service setName(String name){
+    metadata.setName(name);
+    Map<String,String> labels = new HashMap<>();
+    labels.put("app",name);
+    metadata.setLabels(labels);
+    return this;
+  }
+
+  public String getName(){
+    return metadata.getName();
+  }
+
+  public V1Service setSelector(Map<String, String> selector){
+    spec.selector(selector);
+    return this;
+  }
+
+  public V1Service setSelector(String key,String value){
+    spec.putSelectorItem(key,value);
+    return this;
+  }
+
+  public V1Service addPort(String name,Integer port){
+    return addPort(name,"TCP",port,null,null);
+  }
+
+  public V1Service addPort(String name,Integer port,Integer targetPort){
+    return addPort(name,"TCP",port,targetPort,null);
+  }
+
+  public V1Service addPort(String name,Integer port,Integer targetPort,Integer nodePort){
+    return addPort(name,"TCP",port,targetPort,nodePort);
+  }
+
+  public V1Service addPort(String name,String protocol,Integer port,Integer targetPort,Integer nodePort){
+    V1ServicePort servicePort = new V1ServicePort();
+    servicePort.setName(name);
+    servicePort.setProtocol(protocol.toUpperCase());
+    servicePort.setPort(port);
+    if (targetPort != null){
+      servicePort.setTargetPort(new IntOrString(targetPort));
+    }
+    if (nodePort != null){
+      servicePort.setNodePort(nodePort);
+    }
+    spec.addPortsItem(servicePort);
     return this;
   }
 
