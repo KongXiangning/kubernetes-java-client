@@ -21,8 +21,10 @@ import javax.xml.stream.events.Namespace;
 
 public class test {
 
-    final static String value = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLW54dDJtIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1NjJjMTM4MS01ZmMxLTExZTgtOWJjNC0wMDBjMjkwMmI2NTkiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.RFeYjT0ZovID2sihAO6kothjAQYCrCSqWnRl9uIiTYA-fP1l-pIKiSVRBUx8pK4XnPyEu5ORYfsIivJtx4TRJEuWmV7ad7UmPeUreD9jnYowUvkHhbkFRQExtcWSLFyGQRc7RxsLC6qDE9LHv3lBxiV_rlQ1v9LhfFpLuxTHu9ouVMZrXE-r1kcRe8hKoibMSFLoCWNt4oWB1SKnmyQyEoLg8x3Gja3HtEyz4TjOOfCQQhTf1MluMEFwExnEXT3kQyHVejiAFA-GeHU1jVG_YLqNa9l4cxb4uaath7e-DcagI4m28wu6Mnkx3qXBeeV4yVUVOAMfUH9FOc4WH3Cu9g";
-
+//    final static String value = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLW54dDJtIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1NjJjMTM4MS01ZmMxLTExZTgtOWJjNC0wMDBjMjkwMmI2NTkiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.RFeYjT0ZovID2sihAO6kothjAQYCrCSqWnRl9uIiTYA-fP1l-pIKiSVRBUx8pK4XnPyEu5ORYfsIivJtx4TRJEuWmV7ad7UmPeUreD9jnYowUvkHhbkFRQExtcWSLFyGQRc7RxsLC6qDE9LHv3lBxiV_rlQ1v9LhfFpLuxTHu9ouVMZrXE-r1kcRe8hKoibMSFLoCWNt4oWB1SKnmyQyEoLg8x3Gja3HtEyz4TjOOfCQQhTf1MluMEFwExnEXT3kQyHVejiAFA-GeHU1jVG_YLqNa9l4cxb4uaath7e-DcagI4m28wu6Mnkx3qXBeeV4yVUVOAMfUH9FOc4WH3Cu9g";
+    final static String value = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTl6cGdoIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI3YjA0NjYwZS01ZGEwLTExZTgtOWIxMC1mYTE2M2UxMTdjN2MiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.qYWTc5M2RGFgXfSqyaLdbrWlR13EVBZar_C2ruEez4PuX2_ypnvk0qJb3qsbip99RECmlu6evayaDL4kDVZGeZI9EnFS_RRqOyX96ME_m1ZpWQI54oJC7hxLycvXWbsevUeA0pfrQG5bQp2ZvWGcELQZilTWWvhUGkUfcgr-udK1Xr51BkOQNKSXgfxlaEo64H5Iruo0CMyoBDUpaboaM3h7gj8AOzGm5JjHDvhe1OifeUIClhn88mt_HYTTsSZlC_Fl7k8j1M1LjyBS4ukxZS1WloxpVm3PnfKr5vrheSVhnc2-6_Vw-dGi9e8NP4I0vfw74rMDRggZk9IWzfnsug";
+    final static String ip = "https://10.6.250.253:6443";
+    final static String namespace = "njxs-test";
 
     /*public static void main(String[] args) {
         ApiClient apiClient = ApiClient.getApiClient();
@@ -191,7 +193,7 @@ public class test {
 //        }
     }*/
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         ApiClient apiClient = ApiClient.getApiClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
@@ -202,7 +204,7 @@ public class test {
         PodApi podApi = new PodApi();
 
         try {
-            /*V1EventList v1EventList = eventApi.getEventList("testdev");
+            *//*V1EventList v1EventList = eventApi.getEventList("testdev");
             System.out.println(v1EventList.getItems().size());
             for (int i = 0; i < v1EventList.getItems().size(); i++) {
                 V1Event event = v1EventList.getItems().get(i);
@@ -210,7 +212,7 @@ public class test {
                     System.out.println(event.getType()+"|"+event.getReason()+"|"+event.getMessage());
                 }
             }
-            System.out.println(v1EventList);*/
+            System.out.println(v1EventList);*//*
             String namespace = "testdev";
             String label = "myweb";
             String name = "myweb";
@@ -236,5 +238,20 @@ public class test {
         } catch (ApiException e) {
             e.printStackTrace();
         }
+    }*/
+
+    public static void main(String[] args) {
+        ApiClient apiClient = ApiClient.getApiClient();
+        apiClient.setBasePath(ip);
+        ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
+        BearerToken.setApiKey(value);
+
+        AppApi appApi = new AppApi();
+        try {
+            appApi.createEndpointService(namespace,"db.configcenter.weilian.cn","172.16.36.70",5432);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+
     }
 }

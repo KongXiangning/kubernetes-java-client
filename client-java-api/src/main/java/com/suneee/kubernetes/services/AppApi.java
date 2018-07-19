@@ -18,11 +18,15 @@ public class AppApi {
 
     public V1Service createEndpointService(String namespace,String name,String addr,Integer port)throws ApiException{
         ServiceApi serviceApi = new ServiceApi();
-        V1Service service = new V1Service(namespace,name).addPort(name+"sv",port).setSelector("app",name);
-        V1Endpoints endpoints = new V1Endpoints(namespace,name).addSubset(addr,port);
+        V1Service serviceBody = new V1Service(namespace,name).addPort(name+"sv",port).setSelector("app",name);
+        V1Endpoints endpointsBody = new V1Endpoints(namespace,name).addSubset(addr,port);
 
-        serviceApi.createEndpoint(namespace,endpoints);
-        return serviceApi.createService(namespace,service);
+        Gson gson = new JSON().getGson();
+        String json = gson.toJson(serviceBody);
+        System.out.println(json);
+
+        serviceApi.createEndpoint(namespace,endpointsBody);
+        return serviceApi.createService(namespace,serviceBody);
     }
 
     public AppsV1beta1Deployment createDeploymentService(String namespace, String name, String imagesName, String host, Integer port, HashMap<String,String> envs,String limitsCpu,String limitsmem) throws ApiException {
@@ -53,9 +57,7 @@ public class AppApi {
         }
 
         V1beta1Ingress ingressBody = new V1beta1Ingress(namespace,name).addRule(host,name,port);
-        Gson gson = new JSON().getGson();
-        String json = gson.toJson(ingressBody);
-        System.out.println(json);
+
 
         ingressApi.createIngress(namespace,ingressBody);
 
