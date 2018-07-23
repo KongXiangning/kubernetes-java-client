@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.suneee.kubernetes.api.DeploymentApi;
 import com.suneee.kubernetes.api.IngressApi;
 import com.suneee.kubernetes.api.ServiceApi;
+import com.suneee.kubernetes.constant.ServiceType;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.http.JSON;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
@@ -18,15 +19,23 @@ public class AppApi {
 
     public V1Service createEndpointService(String namespace,String name,String addr,Integer port)throws ApiException{
         ServiceApi serviceApi = new ServiceApi();
-        V1Service serviceBody = new V1Service(namespace,name).addPort(name+"sv",port).setSelector("app",name);
+        V1Service serviceBody = new V1Service(namespace,name).addPort(null,port).setType(ServiceType.ClusterIP);
         V1Endpoints endpointsBody = new V1Endpoints(namespace,name).addSubset(addr,port);
 
         Gson gson = new JSON().getGson();
         String json = gson.toJson(serviceBody);
         System.out.println(json);
 
+
         serviceApi.createEndpoint(namespace,endpointsBody);
-        return serviceApi.createService(namespace,serviceBody);
+        serviceApi.createService(namespace,serviceBody);
+        return null;
+    }
+
+    public void deleteEndpointService(String namespace,String name)throws ApiException{
+        ServiceApi serviceApi = new ServiceApi();
+        serviceApi.deleteService(namespace,name);
+        serviceApi.deleteEndpoint(namespace,name);
     }
 
     public AppsV1beta1Deployment createDeploymentService(String namespace, String name, String imagesName, String host, Integer port, HashMap<String,String> envs,String limitsCpu,String limitsmem) throws ApiException {
@@ -60,6 +69,35 @@ public class AppApi {
 
 
         ingressApi.createIngress(namespace,ingressBody);
+
+        return deploymentBody;
+    }
+
+    public AppsV1beta1Deployment createDeploymentProvider(String namespace, String name, String imagesName, Integer port, HashMap<String,String> envs,String limitsCpu,String limitsmem) throws ApiException {
+        DeploymentApi deploymentApi = new DeploymentApi();
+        ServiceApi serviceApi = new ServiceApi();
+
+        AppsV1beta1Deployment deploymentBody = new AppsV1beta1Deployment(namespace,name);
+        deploymentBody.addContainer(name,imagesName,port,envs);
+        deploymentBody.setResource(limitsCpu,limitsmem);
+
+        try {
+            deploymentBody = deploymentApi.createNamespaceDeployment(namespace,deploymentBody);
+        } catch (ApiException e) {
+            if (!e.getMessage().equals("Conflict")){
+                throw e;
+            }
+        }
+
+        V1Service serviceBody = new V1Service(namespace,name).addPort(name+"sv",port,port).setSelector("app",name);
+
+        try {
+            serviceApi.createService(namespace,serviceBody);
+        } catch (ApiException e) {
+            if (!e.getMessage().equals("Conflict")){
+                throw e;
+            }
+        }
 
         return deploymentBody;
     }

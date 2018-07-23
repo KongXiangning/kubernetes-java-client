@@ -5,13 +5,17 @@ import com.suneee.kubernetes.api.*;
 import com.suneee.kubernetes.auth.ApiKeyAuth;
 import com.suneee.kubernetes.constant.ImagePullPolicy;
 import com.suneee.kubernetes.constant.KindType;
+import com.suneee.kubernetes.custom.IntOrString;
 import com.suneee.kubernetes.http.ApiClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.http.JSON;
 import com.suneee.kubernetes.model.V1ObjectMeta;
+import com.suneee.kubernetes.model.V1Probe;
+import com.suneee.kubernetes.model.V1TCPSocketAction;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
 import com.suneee.kubernetes.model.event.V1Event;
 import com.suneee.kubernetes.model.event.V1EventList;
+import com.suneee.kubernetes.model.ingress.V1beta1Ingress;
 import com.suneee.kubernetes.model.namespace.V1Namespace;
 import com.suneee.kubernetes.model.pod.V1PodList;
 import com.suneee.kubernetes.model.service.V1Service;
@@ -246,9 +250,72 @@ public class test {
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
 
-        AppApi appApi = new AppApi();
+        String namespace = "mes-test";
+        /*AppsV1beta1Deployment deployment = new AppsV1beta1Deployment(namespace,"system-rest");
+        */
+        /*NamespaceApi namespaceApi = new NamespaceApi();
+        V1Namespace namespaceBody = new V1Namespace("mes-test");
         try {
-            appApi.createEndpointService(namespace,"db.configcenter.weilian.cn","172.16.36.70",5432);
+            namespaceApi.createNamespaceDeployment(namespaceBody);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
+
+        /*AppApi appApi = new AppApi();
+        try {
+            appApi.createEndpointService("mes-test","db-mes","172.16.36.70",5432);
+//            appApi.deleteEndpointService("mes-test","db-mes");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
+
+
+        /*AppsV1beta1Deployment deploymentBody = new AppsV1beta1Deployment("mes-test","system-rest");
+        deploymentBody.addContainer("system-rest","172.16.36.69:5000/vr-mes/system-rest:t1.0.0",30928,null);
+        deploymentBody.addEnv("JENV","prod").addEnv("PROD","mes-system");
+        deploymentBody.setResource("1","1Gi");
+
+        V1Service serviceBody = new V1Service(namespace,"system-rest").addPort("system-rest-sv",30928,30928).setSelector("app","system-rest");
+
+        V1beta1Ingress ingressBody = new V1beta1Ingress(namespace,"system-rest").addRule("test.mes.weilian.cn","system-rest",30928);
+
+        DeploymentApi deploymentApi = new DeploymentApi();
+        ServiceApi serviceApi = new ServiceApi();
+        IngressApi ingressApi = new IngressApi();
+
+        try {
+            deploymentApi.createNamespaceDeployment(namespace,deploymentBody);
+            serviceApi.createService(namespace,serviceBody);
+            ingressApi.createIngress(namespace,ingressBody);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
+
+        /*DeploymentApi deploymentApi = new DeploymentApi();
+        try {
+            AppsV1beta1Deployment deploymentBody = deploymentApi.getNamespaceDeploymentByName(namespace,"system-rest");
+            V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(30928));
+            V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(600).timeoutSeconds(60);
+            deploymentBody.getSpec().getTemplate().getSpec().getContainers().get(0).livenessProbe(probe);
+            deploymentBody.getSpec().getTemplate().getSpec().getContainers().get(0).readinessProbe(probe);
+
+            deploymentApi.updateNamespaceDeployment(namespace,"system-rest",deploymentBody);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
+
+        /*AppApi appApi = new AppApi();
+        try {
+            appApi.deleteDeploymentService(namespace,"system-rest");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
+
+        AppApi appApi = new AppApi();
+
+        try {
+            appApi.createDeploymentProvider("mes-test","system-provider","172.16.36.69:5000/vr-mes/system-provider:t1.0.0",20928,null,"4","4Gi");
+//            appApi.deleteDeploymentService("mes-test","system-provider");
         } catch (ApiException e) {
             e.printStackTrace();
         }

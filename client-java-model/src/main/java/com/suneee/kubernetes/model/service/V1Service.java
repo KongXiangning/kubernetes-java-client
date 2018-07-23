@@ -101,6 +101,11 @@ public class V1Service {
     return this;
   }
 
+  public V1Service setType(String type){
+    spec.setType(type);
+    return this;
+  }
+
   public V1Service addPort(String name,Integer port){
     return addPort(name,"TCP",port,null,null);
   }

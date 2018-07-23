@@ -56,6 +56,7 @@ public class AppsV1beta1Deployment {
     this.kind = "Deployment";
     this.metadata = new V1ObjectMeta();
     this.spec = new AppsV1beta1DeploymentSpec();
+    this.spec.getTemplate().getSpec().setDnsPolicy("Default");
   }
 
   public AppsV1beta1Deployment(V1ObjectMeta metadata,AppsV1beta1DeploymentSpec spec){
@@ -178,10 +179,10 @@ public class AppsV1beta1Deployment {
       for (Integer port : portList) {
         container.addPortsItem(new V1ContainerPort().containerPort(port));
       }
-      V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(portList.get(0)));
-      V1Probe probe = new V1Probe().tcpSocket(tcpSocket);
+      /*V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(portList.get(0)));
+      V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(180).timeoutSeconds(30).failureThreshold(10).periodSeconds(30);
       container.livenessProbe(probe);
-      container.readinessProbe(probe);
+      container.readinessProbe(probe);*/
     }
 
 
@@ -190,6 +191,8 @@ public class AppsV1beta1Deployment {
         container.addEnvItem(new V1EnvVar(entry.getKey(),entry.getValue()));
       }
     }
+
+    container.addEnvItem(new V1EnvVar("TZ","Asia/Shanghai"));
 
     if (resource != null) container.resources(resource);
     this.addContainer(container);
