@@ -17,6 +17,10 @@ import com.google.gson.annotations.SerializedName;
 import com.suneee.kubernetes.model.*;
 import com.suneee.kubernetes.model.container.V1Container;
 import com.suneee.kubernetes.model.local.V1LocalObjectReference;
+import com.suneee.kubernetes.model.node.V1NodeAffinity;
+import com.suneee.kubernetes.model.node.V1NodeSelector;
+import com.suneee.kubernetes.model.node.V1NodeSelectorRequirement;
+import com.suneee.kubernetes.model.node.V1NodeSelectorTerm;
 import com.suneee.kubernetes.model.volume.V1Volume;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -113,6 +117,14 @@ public class V1PodSpec {
   public V1PodSpec activeDeadlineSeconds(Long activeDeadlineSeconds) {
     this.activeDeadlineSeconds = activeDeadlineSeconds;
     return this;
+  }
+
+  public V1PodSpec(){
+    this.affinity = new V1Affinity();
+    V1NodeSelectorRequirement nodeSelectorRequirement = new V1NodeSelectorRequirement().key("master").operator("NotIn").addValuesItem("master");
+    V1NodeSelectorTerm nodeSelectorTerm = new V1NodeSelectorTerm().addMatchExpressionsItem(nodeSelectorRequirement);
+    V1NodeSelector nodeSelector = new V1NodeSelector().addNodeSelectorTermsItem(nodeSelectorTerm);
+    affinity.nodeAffinity(new V1NodeAffinity().requiredDuringSchedulingIgnoredDuringExecution(nodeSelector));
   }
 
    /**

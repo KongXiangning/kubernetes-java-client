@@ -63,7 +63,7 @@ public class DeploymentApi {
         return resp.getData();
     }
 
-    public AppsV1beta1Deployment getNamespaceDeploymentlist(String namespace)throws ApiException{
+    public AppsV1beta1DeploymentList getNamespaceDeploymentlist(String namespace)throws ApiException{
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");
         }
@@ -71,8 +71,27 @@ public class DeploymentApi {
                  .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace));
 
         Call call = apiCommon.getCallGet(localVarPath);
-        Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
-        ApiResponse<AppsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
+        Type localVarReturnType = new TypeToken<AppsV1beta1DeploymentList>(){}.getType();
+        ApiResponse<AppsV1beta1DeploymentList> resp = apiClient.execute(call,localVarReturnType);
+        return resp.getData();
+    }
+
+    public AppsV1beta1DeploymentList getNamespaceDeploymentByLabelname(String namespace,String labelname)throws ApiException{
+        if (namespace == null || namespace.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'namespace'");
+        }
+
+        if (labelname == null || labelname.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'labelname'");
+        }
+
+        String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments?labelSelector=app in ({labelname})"
+                .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
+                .replaceAll("\\{"+"labelname"+"\\}",apiClient.escapeString(labelname));
+
+        Call call = apiCommon.getCallGet(localVarPath);
+        Type localVarReturnType = new TypeToken<AppsV1beta1DeploymentList>(){}.getType();
+        ApiResponse<AppsV1beta1DeploymentList> resp = apiClient.execute(call,localVarReturnType);
         return resp.getData();
     }
 
@@ -94,24 +113,6 @@ public class DeploymentApi {
         return resp.getData();
     }
 
-    public AppsV1beta1Deployment getNamespaceDeploymentByLabelname(String namespace,String labelname)throws ApiException{
-        if (namespace == null || namespace.isEmpty()) {
-            throw new ApiException("Missing the required parameter 'namespace'");
-        }
-
-        if (labelname == null || labelname.isEmpty()) {
-            throw new ApiException("Missing the required parameter 'labelname'");
-        }
-
-        String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments?labelSelector=app in ({labelname})"
-                .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
-                .replaceAll("\\{"+"labelname"+"\\}",apiClient.escapeString(labelname));
-
-        Call call = apiCommon.getCallGet(localVarPath);
-        Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
-        ApiResponse<AppsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
-        return resp.getData();
-    }
 
     public AppsV1beta1Deployment deleteNamespaceDeployment(String namespace,String name)throws ApiException{
         V1DeleteOptions deleteOptions = new V1DeleteOptions();

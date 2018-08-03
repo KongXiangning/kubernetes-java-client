@@ -8,6 +8,7 @@ import com.suneee.kubernetes.http.ApiClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.namespace.V1Namespace;
 import com.suneee.kubernetes.model.namespace.V1NamespaceList;
+import io.swagger.annotations.Api;
 import okhttp3.Call;
 
 import java.lang.reflect.Type;
@@ -29,6 +30,10 @@ public class NamespaceApi {
         Type localVarReturnType = new TypeToken<V1NamespaceList>(){}.getType();
         ApiResponse<V1NamespaceList> resp = apiClient.execute(call, localVarReturnType);
         return resp.getData();
+    }
+
+    public V1Namespace createNamespaceDeployment(String namespace)throws ApiException{
+        return createNamespaceDeployment(new V1Namespace(namespace));
     }
 
     public V1Namespace createNamespaceDeployment(V1Namespace body)throws ApiException{

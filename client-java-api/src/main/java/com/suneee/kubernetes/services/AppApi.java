@@ -3,6 +3,7 @@ package com.suneee.kubernetes.services;
 import com.google.gson.Gson;
 import com.suneee.kubernetes.api.DeploymentApi;
 import com.suneee.kubernetes.api.IngressApi;
+import com.suneee.kubernetes.api.PodApi;
 import com.suneee.kubernetes.api.ServiceApi;
 import com.suneee.kubernetes.constant.ServiceType;
 import com.suneee.kubernetes.http.ApiException;
@@ -131,6 +132,11 @@ public class AppApi {
                 throw e;
             }
         }
+    }
+
+    public void updateDeploymentNoChange(String namespace,String labelname)throws ApiException{
+        PodApi podApi = new PodApi();
+        podApi.deletePodByLabel(namespace,labelname);
     }
 
 

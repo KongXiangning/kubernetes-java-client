@@ -15,6 +15,7 @@ package com.suneee.kubernetes.model;
 
 import com.google.gson.annotations.SerializedName;
 import com.suneee.kubernetes.model.node.V1NodeAffinity;
+import com.suneee.kubernetes.model.node.V1NodeSelector;
 import com.suneee.kubernetes.model.pod.V1PodAffinity;
 import com.suneee.kubernetes.model.pod.V1PodAntiAffinity;
 import io.swagger.annotations.ApiModel;

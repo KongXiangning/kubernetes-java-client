@@ -56,7 +56,7 @@ public class AppsV1beta1Deployment {
     this.kind = "Deployment";
     this.metadata = new V1ObjectMeta();
     this.spec = new AppsV1beta1DeploymentSpec();
-    this.spec.getTemplate().getSpec().setDnsPolicy("Default");
+//    this.spec.getTemplate().getSpec().setDnsPolicy("Default");
   }
 
   public AppsV1beta1Deployment(V1ObjectMeta metadata,AppsV1beta1DeploymentSpec spec){
@@ -109,15 +109,34 @@ public class AppsV1beta1Deployment {
     return this;
   }
 
-  public AppsV1beta1Deployment addPort(Integer port){
+  public AppsV1beta1Deployment addPort(int port){
     return addPort(0,port);
   }
 
-  public AppsV1beta1Deployment addPort(int index,Integer port){
+  public AppsV1beta1Deployment addPort(int index,int port){
     if (spec.getTemplate().getSpec().getContainers().get(index) != null){
-      spec.getTemplate().getSpec().getContainers().get(index).addPortsItem(new V1ContainerPort().containerPort(port));
+        deletePort(index,port);
+        spec.getTemplate().getSpec().getContainers().get(index).addPortsItem(new V1ContainerPort().containerPort(port));
     }
     return this;
+  }
+
+  public AppsV1beta1Deployment deletePort(int port){
+      return deletePort(0,port);
+  }
+
+  public AppsV1beta1Deployment deletePort(int index,int port){
+      if (spec.getTemplate().getSpec().getContainers().get(index) != null){
+          List<V1ContainerPort> portList = spec.getTemplate().getSpec().getContainers().get(index).getPorts();
+          for (int i = 0; i < portList.size(); i++) {
+              V1ContainerPort containerPort = portList.get(i);
+              if (containerPort.getContainerPort() == port){
+                  portList.remove(i);
+                  break;
+              }
+          }
+      }
+      return this;
   }
 
   public AppsV1beta1Deployment setResource(String limitsCpu,String limitsmem){
@@ -170,19 +189,18 @@ public class AppsV1beta1Deployment {
     addContainer(name,imagesName,portList,envs,null);
   }
 
-  public void addContainer(String name, String imagesName, List<Integer> portList,HashMap<String,String> envs,V1ResourceRequirements resource){
+  public AppsV1beta1Deployment addContainer(String name, String imagesName, List<Integer> portList,HashMap<String,String> envs,V1ResourceRequirements resource){
     V1Container container = new V1Container();
+    this.addContainer(container);
     container.setName(name);
     container.setImage(imagesName);
-    container.setImagePullPolicy(ImagePullPolicy.IfNotPresent);
+    container.setImagePullPolicy(ImagePullPolicy.Always);
     if (portList != null && portList.size()>0){
       for (Integer port : portList) {
         container.addPortsItem(new V1ContainerPort().containerPort(port));
       }
-      /*V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(portList.get(0)));
-      V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(180).timeoutSeconds(30).failureThreshold(10).periodSeconds(30);
-      container.livenessProbe(probe);
-      container.readinessProbe(probe);*/
+      addReadinessProbe(portList.get(0));
+      addLivenessProbe(portList.get(0));
     }
 
 
@@ -195,7 +213,60 @@ public class AppsV1beta1Deployment {
     container.addEnvItem(new V1EnvVar("TZ","Asia/Shanghai"));
 
     if (resource != null) container.resources(resource);
-    this.addContainer(container);
+    return this;
+  }
+
+  public AppsV1beta1Deployment updateImageName(String imageName){
+    return updateImageName(0,imageName);
+  }
+
+  public AppsV1beta1Deployment updateImageName(int index,String imageName){
+    spec.getTemplate().getSpec().getContainers().get(index).setImage(imageName);
+    return this;
+  }
+
+  public AppsV1beta1Deployment addReadinessProbe(int port){
+    return addReadinessProbe(0,port);
+  }
+
+  public AppsV1beta1Deployment addReadinessProbe(int index,int port){
+    V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(port));
+    V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(30).timeoutSeconds(30).failureThreshold(10).periodSeconds(30);
+    spec.getTemplate().getSpec().getContainers().get(index).readinessProbe(probe);
+    return this;
+  }
+
+  public AppsV1beta1Deployment deleteReadinessProbe(){
+      return deleteReadinessProbe(0);
+  }
+
+  public AppsV1beta1Deployment deleteReadinessProbe(int index){
+      spec.getTemplate().getSpec().getContainers().get(index).readinessProbe(null);
+      return this;
+  }
+
+  public AppsV1beta1Deployment addLivenessProbe(int port){
+    return addLivenessProbe(0,port,600);
+  }
+
+  public AppsV1beta1Deployment addLivenessProbe(int port,int delaySecond){
+    return addLivenessProbe(0,port,delaySecond);
+  }
+
+  public AppsV1beta1Deployment addLivenessProbe(int index,int port,int delaySecond){
+    V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(port));
+    V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(delaySecond).timeoutSeconds(30).failureThreshold(10).periodSeconds(30);
+    spec.getTemplate().getSpec().getContainers().get(index).livenessProbe(probe);
+    return this;
+  }
+
+  public AppsV1beta1Deployment deleteLivenessProbe(){
+      return deleteLivenessProbe(0);
+  }
+
+  public AppsV1beta1Deployment deleteLivenessProbe(int index){
+      spec.getTemplate().getSpec().getContainers().get(index).livenessProbe(null);
+      return this;
   }
 
    /**

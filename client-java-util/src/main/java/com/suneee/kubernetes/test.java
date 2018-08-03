@@ -5,6 +5,7 @@ import com.suneee.kubernetes.api.*;
 import com.suneee.kubernetes.auth.ApiKeyAuth;
 import com.suneee.kubernetes.constant.ImagePullPolicy;
 import com.suneee.kubernetes.constant.KindType;
+import com.suneee.kubernetes.constant.ServiceType;
 import com.suneee.kubernetes.custom.IntOrString;
 import com.suneee.kubernetes.http.ApiClient;
 import com.suneee.kubernetes.http.ApiException;
@@ -13,6 +14,7 @@ import com.suneee.kubernetes.model.V1ObjectMeta;
 import com.suneee.kubernetes.model.V1Probe;
 import com.suneee.kubernetes.model.V1TCPSocketAction;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
+import com.suneee.kubernetes.model.deployment.V1Deployment;
 import com.suneee.kubernetes.model.event.V1Event;
 import com.suneee.kubernetes.model.event.V1EventList;
 import com.suneee.kubernetes.model.ingress.V1beta1Ingress;
@@ -26,7 +28,7 @@ import javax.xml.stream.events.Namespace;
 public class test {
 
 //    final static String value = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLW54dDJtIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1NjJjMTM4MS01ZmMxLTExZTgtOWJjNC0wMDBjMjkwMmI2NTkiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.RFeYjT0ZovID2sihAO6kothjAQYCrCSqWnRl9uIiTYA-fP1l-pIKiSVRBUx8pK4XnPyEu5ORYfsIivJtx4TRJEuWmV7ad7UmPeUreD9jnYowUvkHhbkFRQExtcWSLFyGQRc7RxsLC6qDE9LHv3lBxiV_rlQ1v9LhfFpLuxTHu9ouVMZrXE-r1kcRe8hKoibMSFLoCWNt4oWB1SKnmyQyEoLg8x3Gja3HtEyz4TjOOfCQQhTf1MluMEFwExnEXT3kQyHVejiAFA-GeHU1jVG_YLqNa9l4cxb4uaath7e-DcagI4m28wu6Mnkx3qXBeeV4yVUVOAMfUH9FOc4WH3Cu9g";
-    final static String value = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLTl6cGdoIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI3YjA0NjYwZS01ZGEwLTExZTgtOWIxMC1mYTE2M2UxMTdjN2MiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.qYWTc5M2RGFgXfSqyaLdbrWlR13EVBZar_C2ruEez4PuX2_ypnvk0qJb3qsbip99RECmlu6evayaDL4kDVZGeZI9EnFS_RRqOyX96ME_m1ZpWQI54oJC7hxLycvXWbsevUeA0pfrQG5bQp2ZvWGcELQZilTWWvhUGkUfcgr-udK1Xr51BkOQNKSXgfxlaEo64H5Iruo0CMyoBDUpaboaM3h7gj8AOzGm5JjHDvhe1OifeUIClhn88mt_HYTTsSZlC_Fl7k8j1M1LjyBS4ukxZS1WloxpVm3PnfKr5vrheSVhnc2-6_Vw-dGi9e8NP4I0vfw74rMDRggZk9IWzfnsug";
+    final static String value = "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLWtyYm1xIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJiOTU3MzQ0Mi05M2M1LTExZTgtOWEwMy1mYTE2M2UxMTdjN2MiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.mhIGMjSzoIBEmy66XY39fq2E75j7KkpXQxQXauMZVHFTyBa92mUwQdf3WRleEvSbknjKaqe6h_5z8J7RLc1T8vJeD--qtB86V9lijKac9kOYcY0-NQ352li42wsTTyh1KwJGpHpqBrVvxX36Lyg7cmEpJ1ql3sIDN3PJz-4KX6KndfVkYtTtmFWucJnalYgRO2KaK4OWSYpiHPlTtNzNnmAjeWhaoB9KaBV1fERU63IiRAFSk8dp8VviZTvlsJa6Yq5QywxARCx96PspEKYacWbzRnQl5At3AJ45OHeGEw9eO_SwwwFl2KWc_yLvTcAWc_7lEEmJluRr2dTekxsf7g";
     final static String ip = "https://10.6.250.253:6443";
     final static String namespace = "njxs-test";
 
@@ -47,19 +49,19 @@ public class test {
 
     /*public static void main(String[] args) {
         ApiClient apiClient = ApiClient.getApiClient();
-        apiClient.setBasePath("https://192.168.29.100:6443");
+        apiClient.setBasePath(ip);
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
 
-        *//*String json = "{\"apiVersion\": \"v1\",\"kind\": \"Namespace\",\"metadata\": {\"name\": \"testdev\"}}";
-        V1Namespace v1Namespace = new V1Namespace();
-        v1Namespace.setApiVersion("v1");
-        v1Namespace.setKind("Namespace");
-        V1ObjectMeta meta = new V1ObjectMeta();
-        meta.setName("optest");
-        v1Namespace.setMetadata(meta);*//*
+//        String json = "{\"apiVersion\": \"v1\",\"kind\": \"Namespace\",\"metadata\": {\"name\": \"testdev\"}}";
+//        V1Namespace v1Namespace = new V1Namespace();
+//        v1Namespace.setApiVersion("v1");
+//        v1Namespace.setKind("Namespace");
+//        V1ObjectMeta meta = new V1ObjectMeta();
+//        meta.setName("optest");
+//        v1Namespace.setMetadata(meta);
 
-        V1Namespace v1Namespace = new V1Namespace("testdev");
+        V1Namespace v1Namespace = new V1Namespace("mes-test");
 
         NamespaceApi instance = new NamespaceApi();
         try {
@@ -263,7 +265,7 @@ public class test {
 
         /*AppApi appApi = new AppApi();
         try {
-            appApi.createEndpointService("mes-test","db-mes","172.16.36.70",5432);
+            appApi.createEndpointService("mes-test","redis-mes","10.1.11.92",6379);
 //            appApi.deleteEndpointService("mes-test","db-mes");
         } catch (ApiException e) {
             e.printStackTrace();
@@ -273,9 +275,14 @@ public class test {
         /*AppsV1beta1Deployment deploymentBody = new AppsV1beta1Deployment("mes-test","system-rest");
         deploymentBody.addContainer("system-rest","172.16.36.69:5000/vr-mes/system-rest:t1.0.0",30928,null);
         deploymentBody.addEnv("JENV","prod").addEnv("PROD","mes-system");
-        deploymentBody.setResource("1","1Gi");
+        deploymentBody.addPort(30938);
+        deploymentBody.addPort(30938);
+        deploymentBody.setResource("16","10Gi");
 
-        V1Service serviceBody = new V1Service(namespace,"system-rest").addPort("system-rest-sv",30928,30928).setSelector("app","system-rest");
+        V1Service serviceBody = new V1Service(namespace,"system-rest")
+                .addPort("system-rest-sv",30928,30928)
+                .addPort("system-rest-test",30938,30938)
+                .setSelector("app","system-rest");
 
         V1beta1Ingress ingressBody = new V1beta1Ingress(namespace,"system-rest").addRule("test.mes.weilian.cn","system-rest",30928);
 
@@ -287,6 +294,23 @@ public class test {
             deploymentApi.createNamespaceDeployment(namespace,deploymentBody);
             serviceApi.createService(namespace,serviceBody);
             ingressApi.createIngress(namespace,ingressBody);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+*/
+        /*AppsV1beta1Deployment deploymentBody = new AppsV1beta1Deployment("mes-test","system-provider");
+        deploymentBody.addContainer("system-provider","172.16.36.69:5000/vr-mes/system-provider:t1.0.0",40917,null);
+        deploymentBody.addEnv("JENV","prod").addEnv("PROD","mes-system");
+        deploymentBody.setResource("2","2Gi");
+
+        V1Service serviceBody = new V1Service(namespace,"system-provider").addPort("system-provider-sv",40917,40917).setSelector("app","system-provider").setType(ServiceType.ClusterIP);
+
+        DeploymentApi deploymentApi = new DeploymentApi();
+        ServiceApi serviceApi = new ServiceApi();
+
+        try {
+            deploymentApi.createNamespaceDeployment(namespace,deploymentBody);
+            serviceApi.createService(namespace,serviceBody);
         } catch (ApiException e) {
             e.printStackTrace();
         }*/
@@ -311,11 +335,21 @@ public class test {
             e.printStackTrace();
         }*/
 
-        AppApi appApi = new AppApi();
+        /*AppApi appApi = new AppApi();
 
         try {
             appApi.createDeploymentProvider("mes-test","system-provider","172.16.36.69:5000/vr-mes/system-provider:t1.0.0",20928,null,"4","4Gi");
 //            appApi.deleteDeploymentService("mes-test","system-provider");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
+
+        DeploymentApi deploymentApi = new DeploymentApi();
+        try {
+            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentByName(namespace,"system-rest");
+            deployment.deletePort(30938);
+            deploymentApi.updateNamespaceDeployment(namespace,"system-rest",deployment);
+            System.out.println(deployment);
         } catch (ApiException e) {
             e.printStackTrace();
         }

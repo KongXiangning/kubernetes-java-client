@@ -5,6 +5,8 @@ import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
 import com.suneee.kubernetes.http.ApiException;
+import com.suneee.kubernetes.model.V1DeleteOptions;
+import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
 import com.suneee.kubernetes.model.pod.V1Pod;
 import com.suneee.kubernetes.model.pod.V1PodList;
 import com.suneee.kubernetes.model.pod.V1PodStatus;
@@ -80,5 +82,37 @@ public class PodApi {
         Type localVarReturnType = new TypeToken<V1PodList>(){}.getType();
         ApiResponse<V1PodList> resp = apiClient.execute(call,localVarReturnType);
         return resp.getData();
+    }
+
+    public void deletePodByLabel(String namespace,String labelname)throws ApiException{
+        V1PodList podList = getPodListByLabel(namespace,labelname);
+        for (V1Pod pod : podList.getItems()) {
+            deletePodByName(namespace,pod.getMetadata().getName());
+        }
+    }
+
+    public void deletePodByName(String namespace,String name)throws ApiException{
+        V1DeleteOptions deleteOptions = new V1DeleteOptions();
+        deletePodByName(namespace,name,deleteOptions);
+    }
+
+    public void deletePodByName(String namespace,String name,V1DeleteOptions deleteOptions)throws ApiException{
+        if (namespace == null || namespace.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'namespace'");
+        }
+        if (name == null || name.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'name'");
+        }
+        if (deleteOptions ==null){
+            throw new ApiException("Missing the required parameter 'V1DeleteOptions'");
+        }
+
+        String localVarPath = "/api/v1/namespaces/{namespace}/pods/{name}"
+                .replaceAll("\\{namespace\\}", apiClient.escapeString(namespace))
+                .replaceAll("\\{name\\}", apiClient.escapeString(name));
+
+        Call call = apiCommon.getCallDelete(localVarPath,deleteOptions);
+        Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
+        apiClient.execute(call,localVarReturnType);
     }
 }

@@ -39,7 +39,7 @@ public class ServiceApi {
         return resp.getData();
     }
 
-    public V1Service getServiceByLabel(String namespace,String labelname)throws ApiException{
+    public V1ServiceList getServiceByLabel(String namespace,String labelname)throws ApiException{
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");
         }
@@ -54,8 +54,8 @@ public class ServiceApi {
 
         Call call = apiCommon.getCallGet(localVarPath);
 
-        Type localVarReturnType = new TypeToken<V1Service>(){}.getType();
-        ApiResponse<V1Service> resp = apiClient.execute(call, localVarReturnType);
+        Type localVarReturnType = new TypeToken<V1ServiceList>(){}.getType();
+        ApiResponse<V1ServiceList> resp = apiClient.execute(call, localVarReturnType);
         return resp.getData();
     }
 
