@@ -1,20 +1,25 @@
 package com.suneee.kubernetes.services;
 
 import com.google.gson.Gson;
-import com.suneee.kubernetes.api.DeploymentApi;
-import com.suneee.kubernetes.api.IngressApi;
-import com.suneee.kubernetes.api.PodApi;
-import com.suneee.kubernetes.api.ServiceApi;
+import com.suneee.kubernetes.api.*;
 import com.suneee.kubernetes.constant.ServiceType;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.http.JSON;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
 import com.suneee.kubernetes.model.endpoints.V1Endpoints;
+import com.suneee.kubernetes.model.event.V1Event;
+import com.suneee.kubernetes.model.event.V1EventList;
 import com.suneee.kubernetes.model.ingress.V1beta1Ingress;
+import com.suneee.kubernetes.model.pod.V1Pod;
+import com.suneee.kubernetes.model.pod.V1PodList;
 import com.suneee.kubernetes.model.service.V1Service;
 import com.suneee.kubernetes.model.status.V1Status;
+import io.swagger.annotations.Api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AppApi {
 
@@ -137,6 +142,32 @@ public class AppApi {
     public void updateDeploymentNoChange(String namespace,String labelname)throws ApiException{
         PodApi podApi = new PodApi();
         podApi.deletePodByLabel(namespace,labelname);
+    }
+
+
+    public Map<String,List<V1Event>> getPodEventListByName(String namespace, String name)throws ApiException{
+        EventApi eventApi = new EventApi();
+        PodApi podApi = new PodApi();
+
+        V1PodList podList = podApi.getPodListByLabel(namespace,name);
+        List<String> podNames = new ArrayList<>();
+
+        V1EventList eventList = eventApi.getEventList(namespace);
+
+        Map<String,List<V1Event>> result = new HashMap<>();
+
+        for (V1Pod pod : podList.getItems()) {
+            String podName = pod.getMetadata().getName();
+            List<V1Event> list = new ArrayList<>();
+            for (V1Event v1Event : eventList.getItems()) {
+                if (v1Event.getInvolvedObject().getName().contains(podName)){
+                    list.add(v1Event);
+                }
+            }
+            result.put(podName,list);
+        }
+
+        return result;
     }
 
 

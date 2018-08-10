@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.V1DeleteOptions;
 import com.suneee.kubernetes.model.deployment.*;
@@ -17,7 +18,7 @@ public class DeploymentApi {
     private ApiCommon apiCommon;
 
     public DeploymentApi(){
-        apiClient = ApiClient.getApiClient();
+        apiClient = KubernetesClient.getKubernetesClient();
         apiCommon = new ApiCommon(apiClient);
     }
 
@@ -55,7 +56,7 @@ public class DeploymentApi {
 
         String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}"
                 .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
-                .replaceAll("\\{"+"name"+"\\}",apiClient.escapeString(name));
+                .replaceAll("\\{"+"name"+"\\}", apiClient.escapeString(name));
 
         Call call = apiCommon.getCallPut(localVarPath,deployment);
         Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
@@ -87,7 +88,7 @@ public class DeploymentApi {
 
         String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments?labelSelector=app in ({labelname})"
                 .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
-                .replaceAll("\\{"+"labelname"+"\\}",apiClient.escapeString(labelname));
+                .replaceAll("\\{"+"labelname"+"\\}", apiClient.escapeString(labelname));
 
         Call call = apiCommon.getCallGet(localVarPath);
         Type localVarReturnType = new TypeToken<AppsV1beta1DeploymentList>(){}.getType();
@@ -105,7 +106,7 @@ public class DeploymentApi {
         }
         String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}"
                 .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
-                .replaceAll("\\{"+"name"+"\\}",apiClient.escapeString(name));
+                .replaceAll("\\{"+"name"+"\\}", apiClient.escapeString(name));
 
         Call call = apiCommon.getCallGet(localVarPath);
         Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
@@ -134,7 +135,7 @@ public class DeploymentApi {
 
         String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}"
                 .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
-                .replaceAll("\\{"+"name"+"\\}",apiClient.escapeString(name));
+                .replaceAll("\\{"+"name"+"\\}", apiClient.escapeString(name));
 
         Call call = apiCommon.getCallDelete(localVarPath,deleteOptions);
         Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();

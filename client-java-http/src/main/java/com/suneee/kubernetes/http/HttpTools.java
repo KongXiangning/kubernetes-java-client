@@ -28,7 +28,7 @@ public class HttpTools {
     }*//*
 
     public void testone(){
-        ApiClient defaultClient = Configuration.getDefaultApiClient().setBasePath("https://192.168.29.100:6443");
+        KubernetesClient defaultClient = Configuration.getDefaultApiClient().setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) defaultClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
 

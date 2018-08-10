@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.event.V1Event;
 import com.suneee.kubernetes.model.event.V1EventList;
@@ -19,7 +20,7 @@ public class EventApi {
     private ApiCommon apiCommon;
 
     public EventApi(){
-        apiClient = ApiClient.getApiClient();
+        apiClient = KubernetesClient.getKubernetesClient();
         apiCommon = new ApiCommon(apiClient);
     }
 
@@ -49,7 +50,7 @@ public class EventApi {
             throw new ApiException("Missing the required parameter 'name'");
         }
 
-        String localVarPath = "/api/v1/namespaces/{namespace}/events?fieldSelector=involvedObject.name={name}"
+        String localVarPath = "/api/v1/namespaces/{namespace}/events?fieldSelector=involvedObject.fieldPath=spec.containers{{name}}"
                 .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
                 .replaceAll("\\{" + "name" + "\\}", apiClient.escapeString(name));
 

@@ -4,12 +4,11 @@ import com.google.gson.reflect.TypeToken;
 import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.V1DeleteOptions;
 import com.suneee.kubernetes.model.ingress.V1beta1Ingress;
 import com.suneee.kubernetes.model.ingress.V1beta1IngressList;
-import com.suneee.kubernetes.model.service.V1Service;
-import com.suneee.kubernetes.model.status.V1Status;
 import okhttp3.Call;
 
 import java.lang.reflect.Type;
@@ -20,7 +19,7 @@ public class IngressApi {
     private ApiCommon apiCommon;
 
     public IngressApi(){
-        apiClient = ApiClient.getApiClient();
+        apiClient = KubernetesClient.getKubernetesClient();
         apiCommon = new ApiCommon(apiClient);
     }
 

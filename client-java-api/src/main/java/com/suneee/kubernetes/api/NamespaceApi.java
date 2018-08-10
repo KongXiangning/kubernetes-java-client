@@ -5,10 +5,10 @@ import com.google.gson.reflect.TypeToken;
 import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.namespace.V1Namespace;
 import com.suneee.kubernetes.model.namespace.V1NamespaceList;
-import io.swagger.annotations.Api;
 import okhttp3.Call;
 
 import java.lang.reflect.Type;
@@ -19,7 +19,7 @@ public class NamespaceApi {
     private ApiCommon apiCommon;
 
     public NamespaceApi(){
-        apiClient = ApiClient.getApiClient();
+        apiClient = KubernetesClient.getKubernetesClient();
         apiCommon = new ApiCommon(apiClient);
     }
 

@@ -1,29 +1,13 @@
 package com.suneee.kubernetes;
 
-import com.google.gson.Gson;
 import com.suneee.kubernetes.api.*;
-import com.suneee.kubernetes.auth.ApiKeyAuth;
-import com.suneee.kubernetes.constant.ImagePullPolicy;
-import com.suneee.kubernetes.constant.KindType;
-import com.suneee.kubernetes.constant.ServiceType;
-import com.suneee.kubernetes.custom.IntOrString;
-import com.suneee.kubernetes.http.ApiClient;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
-import com.suneee.kubernetes.http.JSON;
-import com.suneee.kubernetes.model.V1ObjectMeta;
-import com.suneee.kubernetes.model.V1Probe;
-import com.suneee.kubernetes.model.V1TCPSocketAction;
-import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
-import com.suneee.kubernetes.model.deployment.V1Deployment;
 import com.suneee.kubernetes.model.event.V1Event;
-import com.suneee.kubernetes.model.event.V1EventList;
-import com.suneee.kubernetes.model.ingress.V1beta1Ingress;
-import com.suneee.kubernetes.model.namespace.V1Namespace;
-import com.suneee.kubernetes.model.pod.V1PodList;
-import com.suneee.kubernetes.model.service.V1Service;
 import com.suneee.kubernetes.services.AppApi;
 
-import javax.xml.stream.events.Namespace;
+import java.util.List;
+import java.util.Map;
 
 public class test {
 
@@ -33,7 +17,7 @@ public class test {
     final static String namespace = "njxs-test";
 
     /*public static void main(String[] args) {
-        ApiClient apiClient = ApiClient.getApiClient();
+        KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
@@ -48,7 +32,7 @@ public class test {
     }*/
 
     /*public static void main(String[] args) {
-        ApiClient apiClient = ApiClient.getApiClient();
+        KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath(ip);
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
@@ -73,7 +57,7 @@ public class test {
     }*/
 
     /*public static void main(String[] args) {
-        ApiClient apiClient = ApiClient.getApiClient();
+        KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
@@ -89,7 +73,7 @@ public class test {
     }*/
 
     /*public static void main(String[] args) throws ApiException {
-        ApiClient apiClient = ApiClient.getApiClient();
+        KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
@@ -134,7 +118,7 @@ public class test {
     }*/
 
     /*public static void main(String[] args) {
-        ApiClient apiClient = ApiClient.getApiClient();
+        KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
@@ -163,7 +147,7 @@ public class test {
     }*/
 
     /*public static void main(String[] args) {
-        ApiClient apiClient = ApiClient.getApiClient();
+        KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
@@ -200,7 +184,7 @@ public class test {
     }*/
 
     /*public static void main(String[] args) {
-        ApiClient apiClient = ApiClient.getApiClient();
+        KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
         ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);
@@ -247,10 +231,10 @@ public class test {
     }*/
 
     public static void main(String[] args) {
-        ApiClient apiClient = ApiClient.getApiClient();
-        apiClient.setBasePath(ip);
-        ApiKeyAuth BearerToken = (ApiKeyAuth) apiClient.getAuthentication("BearerToken");
-        BearerToken.setApiKey(value);
+        KubernetesClient kubernetesClient = KubernetesClient.getKubernetesClient();
+        kubernetesClient.setBasePath(ip);
+        /*ApiKeyAuth BearerToken = (ApiKeyAuth) kubernetesClient.getAuthentication("BearerToken");
+        BearerToken.setApiKey(value);*/
 
         String namespace = "mes-test";
         /*AppsV1beta1Deployment deployment = new AppsV1beta1Deployment(namespace,"system-rest");
@@ -281,7 +265,6 @@ public class test {
 
         V1Service serviceBody = new V1Service(namespace,"system-rest")
                 .addPort("system-rest-sv",30928,30928)
-                .addPort("system-rest-test",30938,30938)
                 .setSelector("app","system-rest");
 
         V1beta1Ingress ingressBody = new V1beta1Ingress(namespace,"system-rest").addRule("test.mes.weilian.cn","system-rest",30928);
@@ -296,8 +279,9 @@ public class test {
             ingressApi.createIngress(namespace,ingressBody);
         } catch (ApiException e) {
             e.printStackTrace();
-        }
-*/
+        }*/
+
+
         /*AppsV1beta1Deployment deploymentBody = new AppsV1beta1Deployment("mes-test","system-provider");
         deploymentBody.addContainer("system-provider","172.16.36.69:5000/vr-mes/system-provider:t1.0.0",40917,null);
         deploymentBody.addEnv("JENV","prod").addEnv("PROD","mes-system");
@@ -344,12 +328,30 @@ public class test {
             e.printStackTrace();
         }*/
 
-        DeploymentApi deploymentApi = new DeploymentApi();
+        /*DeploymentApi deploymentApi = new DeploymentApi();
         try {
             AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentByName(namespace,"system-rest");
             deployment.deletePort(30938);
             deploymentApi.updateNamespaceDeployment(namespace,"system-rest",deployment);
             System.out.println(deployment);
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }*/
+
+        EventApi eventApi = new EventApi();
+        AppApi appApi = new AppApi();
+        try {
+//            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
+//            V1EventList eventList = eventApi.getEventList("mes-test");
+            Map<String,List<V1Event>> result = appApi.getPodEventListByName("mes-test","system-rest");
+//            System.out.println(eventApi);
+            for (String s : result.keySet()) {
+                System.out.println(s);
+                for (V1Event v1Event : result.get(s)) {
+                    System.out.println(v1Event.getMessage());
+                }
+                System.out.println("-----------------------------------");
+            }
         } catch (ApiException e) {
             e.printStackTrace();
         }

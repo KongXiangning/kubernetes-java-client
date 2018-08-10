@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.V1DeleteOptions;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
@@ -19,7 +20,7 @@ public class PodApi {
     private ApiCommon apiCommon;
 
     public PodApi(){
-        apiClient = ApiClient.getApiClient();
+        apiClient = KubernetesClient.getKubernetesClient();
         apiCommon = new ApiCommon(apiClient);
     }
 

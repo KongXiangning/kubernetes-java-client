@@ -1,7 +1,6 @@
 package com.suneee.kubernetes.common;
 
 import com.suneee.kubernetes.http.*;
-import io.swagger.annotations.Api;
 import okhttp3.Call;
 import okhttp3.Interceptor;
 import okhttp3.Response;
@@ -65,6 +64,23 @@ public class ApiCommon {
         return call;
     }
 
+    public Call getCallFormData(final String localVarPath,final String method,final Map<String, Object> formParams) throws ApiException {
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "BasicAuth" };
+        Call call = apiClient.buildCall(localVarPath, method, localVarQueryParams, localVarCollectionQueryParams, null, localVarHeaderParams, formParams, localVarAuthNames, null);
+        return call;
+    }
+
     public Call getCallnoListener(final String localVarPath,final String method,final Object localVarPostBody)throws ApiException{
         return getCall(localVarPath,method,localVarPostBody,null,null);
     }
@@ -83,5 +99,13 @@ public class ApiCommon {
 
     public Call getCallDelete(final String localVarPath,final Object localVarPostBody)throws ApiException{
         return getCallnoListener(localVarPath,"DELETE",localVarPostBody);
+    }
+
+    public Call getCallPostFormData(final String localVarPath,final Map<String, Object> formParams)throws ApiException{
+        return getCallFormData(localVarPath,"POST",formParams);
+    }
+
+    public Call getCallGetFormData(final String localVarPath)throws ApiException{
+        return getCallFormData(localVarPath,"GET",null);
     }
 }
