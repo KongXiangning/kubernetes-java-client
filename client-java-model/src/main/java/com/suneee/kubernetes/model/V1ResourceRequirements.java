@@ -18,6 +18,7 @@ import com.suneee.kubernetes.custom.Quantity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -27,7 +28,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "ResourceRequirements describes the compute resource requirements.")
 
-public class V1ResourceRequirements {
+public class V1ResourceRequirements{
   @SerializedName("limits")
   private Map<String, Quantity> limits = null;
 

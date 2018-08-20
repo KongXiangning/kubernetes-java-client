@@ -23,6 +23,7 @@ import com.suneee.kubernetes.model.container.V1ContainerPort;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -128,11 +129,13 @@ public class AppsV1beta1Deployment {
   public AppsV1beta1Deployment deletePort(int index,int port){
       if (spec.getTemplate().getSpec().getContainers().get(index) != null){
           List<V1ContainerPort> portList = spec.getTemplate().getSpec().getContainers().get(index).getPorts();
-          for (int i = 0; i < portList.size(); i++) {
-              V1ContainerPort containerPort = portList.get(i);
-              if (containerPort.getContainerPort() == port){
-                  portList.remove(i);
-                  break;
+          if (portList != null){
+              for (int i = 0; i < portList.size(); i++) {
+                  V1ContainerPort containerPort = portList.get(i);
+                  if (containerPort.getContainerPort() == port){
+                      portList.remove(i);
+                      break;
+                  }
               }
           }
       }

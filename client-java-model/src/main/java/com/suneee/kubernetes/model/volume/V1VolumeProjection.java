@@ -20,6 +20,7 @@ import com.suneee.kubernetes.model.secret.V1SecretProjection;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**

@@ -18,6 +18,7 @@ import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "PersistentVolumeClaim is a user's request for and claim to a persistent volume")
 
-public class V1PersistentVolumeClaim {
+public class V1PersistentVolumeClaim{
   @SerializedName("apiVersion")
   private String apiVersion = null;
 

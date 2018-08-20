@@ -18,6 +18,7 @@ import com.suneee.kubernetes.model.V1ListMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "NamespaceList is a list of Namespaces.")
 
-public class V1NamespaceList {
+public class V1NamespaceList{
   @SerializedName("apiVersion")
   private String apiVersion = null;
 

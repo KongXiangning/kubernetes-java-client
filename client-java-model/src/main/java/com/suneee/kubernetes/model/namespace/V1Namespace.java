@@ -18,6 +18,7 @@ import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "Namespace provides a scope for Names. Use of multiple namespaces is optional.")
 
-public class V1Namespace {
+public class V1Namespace{
   @SerializedName("apiVersion")
   private String apiVersion = null;
 

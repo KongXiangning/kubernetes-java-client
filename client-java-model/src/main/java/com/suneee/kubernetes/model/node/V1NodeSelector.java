@@ -17,6 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "A node selector represents the union of the results of one or more label queries over a set of nodes; that is, it represents the OR of the selectors represented by the node selector terms.")
 
-public class V1NodeSelector {
+public class V1NodeSelector{
   @SerializedName("nodeSelectorTerms")
   private List<V1NodeSelectorTerm> nodeSelectorTerms = new ArrayList<V1NodeSelectorTerm>();
 

@@ -17,6 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.")
 
-public class V1LabelSelectorRequirement {
+public class V1LabelSelectorRequirement{
   @SerializedName("key")
   private String key = null;
 

@@ -18,6 +18,7 @@ import com.suneee.kubernetes.custom.IntOrString;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "HTTPGetAction describes an action based on HTTP Get requests.")
 
-public class V1HTTPGetAction {
+public class V1HTTPGetAction{
   @SerializedName("host")
   private String host = null;
 

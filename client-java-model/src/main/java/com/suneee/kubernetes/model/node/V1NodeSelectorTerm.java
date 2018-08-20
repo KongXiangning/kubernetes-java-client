@@ -17,6 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "A null or empty node selector term matches no objects.")
 
-public class V1NodeSelectorTerm {
+public class V1NodeSelectorTerm{
   @SerializedName("matchExpressions")
   private List<V1NodeSelectorRequirement> matchExpressions = new ArrayList<V1NodeSelectorRequirement>();
 

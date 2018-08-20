@@ -17,6 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "Local represents directly-attached storage with node affinity")
 
-public class V1LocalVolumeSource {
+public class V1LocalVolumeSource{
   @SerializedName("path")
   private String path = null;
 

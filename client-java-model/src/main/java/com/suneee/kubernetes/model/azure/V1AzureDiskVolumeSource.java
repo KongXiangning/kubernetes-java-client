@@ -17,6 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "AzureDisk represents an Azure Data Disk mount on the host and bind mount to the pod.")
 
-public class V1AzureDiskVolumeSource {
+public class V1AzureDiskVolumeSource{
   @SerializedName("cachingMode")
   private String cachingMode = null;
 

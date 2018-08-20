@@ -18,6 +18,7 @@ import com.suneee.kubernetes.model.volume.V1VolumeProjection;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

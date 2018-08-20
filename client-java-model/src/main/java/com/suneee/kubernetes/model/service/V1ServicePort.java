@@ -18,6 +18,7 @@ import com.suneee.kubernetes.custom.IntOrString;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "ServicePort contains information on service's port.")
 
-public class V1ServicePort {
+public class V1ServicePort{
   @SerializedName("name")
   private String name = null;
 

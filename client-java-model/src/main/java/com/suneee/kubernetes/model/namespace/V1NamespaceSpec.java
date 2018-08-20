@@ -17,6 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "NamespaceSpec describes the attributes on a Namespace.")
 
-public class V1NamespaceSpec {
+public class V1NamespaceSpec{
   @SerializedName("finalizers")
   private List<String> finalizers = null;
 

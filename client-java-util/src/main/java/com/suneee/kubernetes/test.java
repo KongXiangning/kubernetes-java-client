@@ -1,9 +1,15 @@
 package com.suneee.kubernetes;
 
 import com.suneee.kubernetes.api.*;
+import com.suneee.kubernetes.auth.ApiKeyAuth;
+import com.suneee.kubernetes.constant.ServiceType;
 import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
+import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
+import com.suneee.kubernetes.model.deployment.AppsV1beta1DeploymentStatus;
 import com.suneee.kubernetes.model.event.V1Event;
+import com.suneee.kubernetes.model.pod.V1PodList;
+import com.suneee.kubernetes.model.service.V1Service;
 import com.suneee.kubernetes.services.AppApi;
 
 import java.util.List;
@@ -233,8 +239,8 @@ public class test {
     public static void main(String[] args) {
         KubernetesClient kubernetesClient = KubernetesClient.getKubernetesClient();
         kubernetesClient.setBasePath(ip);
-        /*ApiKeyAuth BearerToken = (ApiKeyAuth) kubernetesClient.getAuthentication("BearerToken");
-        BearerToken.setApiKey(value);*/
+        ApiKeyAuth BearerToken = (ApiKeyAuth) kubernetesClient.getAuthentication("BearerToken");
+        BearerToken.setApiKey(value);
 
         String namespace = "mes-test";
         /*AppsV1beta1Deployment deployment = new AppsV1beta1Deployment(namespace,"system-rest");
@@ -319,26 +325,29 @@ public class test {
             e.printStackTrace();
         }*/
 
-        /*AppApi appApi = new AppApi();
+        AppApi appApi = new AppApi();
 
         try {
-            appApi.createDeploymentProvider("mes-test","system-provider","172.16.36.69:5000/vr-mes/system-provider:t1.0.0",20928,null,"4","4Gi");
-//            appApi.deleteDeploymentService("mes-test","system-provider");
+//            appApi.createDeploymentProvider("mes-test","system-provider","172.16.36.69:5000/vr-mes/system-provider:t1.0.0",20928,null,"4","4Gi");
+            appApi.deleteDeploymentService("mes-test","system");
         } catch (ApiException e) {
             e.printStackTrace();
-        }*/
+        }
 
         /*DeploymentApi deploymentApi = new DeploymentApi();
+        PodApi podApi = new PodApi();
         try {
-            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentByName(namespace,"system-rest");
-            deployment.deletePort(30938);
-            deploymentApi.updateNamespaceDeployment(namespace,"system-rest",deployment);
+//            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentByName(namespace,"system-rest");
+            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName(namespace,"system-rest");
+//            V1PodList podList = podApi.getPodListByLabel(namespace,"system-rest");
+//            deployment.deletePort(30938);
+//            deploymentApi.updateNamespaceDeployment(namespace,"system-rest",deployment);
             System.out.println(deployment);
         } catch (ApiException e) {
             e.printStackTrace();
         }*/
 
-        EventApi eventApi = new EventApi();
+        /*EventApi eventApi = new EventApi();
         AppApi appApi = new AppApi();
         try {
 //            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
@@ -354,7 +363,7 @@ public class test {
             }
         } catch (ApiException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 }

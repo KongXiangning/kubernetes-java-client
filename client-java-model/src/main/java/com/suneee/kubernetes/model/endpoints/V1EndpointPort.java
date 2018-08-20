@@ -17,6 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "EndpointPort is a tuple that describes a single port.")
 
-public class V1EndpointPort {
+public class V1EndpointPort{
   @SerializedName("name")
   private String name = null;
 

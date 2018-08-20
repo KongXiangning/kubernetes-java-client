@@ -232,16 +232,13 @@ public class JenkinsClient implements ApiClient{
             reqBody = buildRequestBodyMultipart(formParams);
         } else if (body == null) {
             if ("DELETE".equals(method)) {
-                // allow calling DELETE without sending a request body
                 reqBody = null;
             } else {
-                // use an empty request body (for POST, PUT and PATCH)
                 reqBody = RequestBody.create(MediaType.parse(contentType), "");
             }
         } else {
             reqBody = serialize(body, contentType);
         }
-
         Request request = null;
 
         if(progressRequestListener != null && reqBody != null) {

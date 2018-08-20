@@ -18,6 +18,7 @@ import com.suneee.kubernetes.custom.IntOrString;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "Spec to control the desired behavior of rolling update.")
 
-public class AppsV1beta1RollingUpdateDeployment {
+public class AppsV1beta1RollingUpdateDeployment{
   @SerializedName("maxSurge")
   private IntOrString maxSurge = null;
 

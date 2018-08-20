@@ -28,6 +28,7 @@ import com.suneee.kubernetes.model.storage.V1StorageOSVolumeSource;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**

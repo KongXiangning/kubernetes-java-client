@@ -114,6 +114,24 @@ public class DeploymentApi {
         return resp.getData();
     }
 
+    public AppsV1beta1Deployment getNamespaceDeploymentStatusByName(String namespace,String name)throws ApiException{
+        if (namespace == null || namespace.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'namespace'");
+        }
+
+        if (name == null || name.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'name'");
+        }
+        String localVarPath = "/apis/apps/v1beta1/namespaces/{namespace}/deployments/{name}/status"
+                .replaceAll("\\{" + "namespace" + "\\}", apiClient.escapeString(namespace))
+                .replaceAll("\\{"+"name"+"\\}", apiClient.escapeString(name));
+
+        Call call = apiCommon.getCallGet(localVarPath);
+        Type localVarReturnType = new TypeToken<AppsV1beta1Deployment>(){}.getType();
+        ApiResponse<AppsV1beta1Deployment> resp = apiClient.execute(call,localVarReturnType);
+        return resp.getData();
+    }
+
 
     public AppsV1beta1Deployment deleteNamespaceDeployment(String namespace,String name)throws ApiException{
         V1DeleteOptions deleteOptions = new V1DeleteOptions();

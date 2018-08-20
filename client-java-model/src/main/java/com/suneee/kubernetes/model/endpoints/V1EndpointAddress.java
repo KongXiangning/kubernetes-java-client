@@ -18,6 +18,7 @@ import com.suneee.kubernetes.model.V1ObjectReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -25,7 +26,7 @@ import java.util.Objects;
  */
 @ApiModel(description = "EndpointAddress is a tuple that describes single IP address.")
 
-public class V1EndpointAddress {
+public class V1EndpointAddress{
   @SerializedName("hostname")
   private String hostname = null;
 

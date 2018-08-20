@@ -17,13 +17,14 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * V1APIServiceCondition
  */
 
-public class V1APIServiceCondition {
+public class V1APIServiceCondition{
   @SerializedName("lastTransitionTime")
   private DateTime lastTransitionTime = null;
 
