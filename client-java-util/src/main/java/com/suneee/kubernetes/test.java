@@ -8,6 +8,7 @@ import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1DeploymentStatus;
 import com.suneee.kubernetes.model.event.V1Event;
+import com.suneee.kubernetes.model.pod.V1Pod;
 import com.suneee.kubernetes.model.pod.V1PodList;
 import com.suneee.kubernetes.model.service.V1Service;
 import com.suneee.kubernetes.services.AppApi;
@@ -325,14 +326,14 @@ public class test {
             e.printStackTrace();
         }*/
 
-        AppApi appApi = new AppApi();
+        /*AppApi appApi = new AppApi();
 
         try {
 //            appApi.createDeploymentProvider("mes-test","system-provider","172.16.36.69:5000/vr-mes/system-provider:t1.0.0",20928,null,"4","4Gi");
             appApi.deleteDeploymentService("mes-test","system");
         } catch (ApiException e) {
             e.printStackTrace();
-        }
+        }*/
 
         /*DeploymentApi deploymentApi = new DeploymentApi();
         PodApi podApi = new PodApi();
@@ -347,23 +348,35 @@ public class test {
             e.printStackTrace();
         }*/
 
-        /*EventApi eventApi = new EventApi();
+        EventApi eventApi = new EventApi();
         AppApi appApi = new AppApi();
+        PodApi podApi = new PodApi();
+        DeploymentApi deploymentApi = new DeploymentApi();
         try {
-//            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
-//            V1EventList eventList = eventApi.getEventList("mes-test");
-            Map<String,List<V1Event>> result = appApi.getPodEventListByName("mes-test","system-rest");
-//            System.out.println(eventApi);
-            for (String s : result.keySet()) {
-                System.out.println(s);
-                for (V1Event v1Event : result.get(s)) {
-                    System.out.println(v1Event.getMessage());
-                }
-                System.out.println("-----------------------------------");
-            }
+////            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
+////            V1EventList eventList = eventApi.getEventList("mes-test");
+//            Map<String,List<V1Event>> result = appApi.getPodEventListByName("mes-test","system-provider");
+////            System.out.println(eventApi);
+//            for (String s : result.keySet()) {
+//                System.out.println(s);
+//                for (V1Event v1Event : result.get(s)) {
+//                    System.out.println(v1Event.getMessage());
+//                }
+//                System.out.println("-----------------------------------");
+//            }
+//            V1PodList podList = podApi.getPodListByLabel("mes-test","system-provider");
+//            for (V1Pod v1Pod : podList.getItems()) {
+//                List<V1Event> list = appApi.getPodEventListByName("mes-test",v1Pod.getMetadata().getName());
+//                for (V1Event v1Event : list) {
+//                    System.out.println(v1Event.getMessage());
+//                }
+//            }
+            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("mes-test","system-rest1");
+            System.out.println(deployment);
         } catch (ApiException e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
-        }*/
+        }
 
     }
 }

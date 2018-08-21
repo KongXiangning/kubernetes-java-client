@@ -144,8 +144,22 @@ public class AppApi {
         podApi.deletePodByLabel(namespace,labelname);
     }
 
+    public List<V1Event> getPodEventListByName(String namespace, String name)throws ApiException{
+        EventApi eventApi = new EventApi();
 
-    public Map<String,List<V1Event>> getPodEventListByName(String namespace, String name)throws ApiException{
+        V1EventList eventList = eventApi.getEventList(namespace);
+
+        List<V1Event> list = new ArrayList<>();
+        for (V1Event v1Event : eventList.getItems()) {
+            if (v1Event.getInvolvedObject().getName().contains(name)){
+                list.add(v1Event);
+            }
+        }
+
+        return list;
+    }
+
+    /*public Map<String,List<V1Event>> getPodEventListByName(String namespace, String name)throws ApiException{
         EventApi eventApi = new EventApi();
         PodApi podApi = new PodApi();
 
@@ -168,7 +182,7 @@ public class AppApi {
         }
 
         return result;
-    }
+    }*/
 
 
 }
