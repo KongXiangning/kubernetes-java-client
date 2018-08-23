@@ -352,6 +352,7 @@ public class test {
         AppApi appApi = new AppApi();
         PodApi podApi = new PodApi();
         DeploymentApi deploymentApi = new DeploymentApi();
+        NamespaceApi namespaceApi = new NamespaceApi();
         try {
 ////            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
 ////            V1EventList eventList = eventApi.getEventList("mes-test");
@@ -371,8 +372,9 @@ public class test {
 //                    System.out.println(v1Event.getMessage());
 //                }
 //            }
-            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("mes-test","system-rest1");
-            System.out.println(deployment);
+//            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("mes-test","system-rest1");
+//            System.out.println(deployment);
+            namespaceApi.createNamespaceDeployment("mes-test");
         } catch (ApiException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

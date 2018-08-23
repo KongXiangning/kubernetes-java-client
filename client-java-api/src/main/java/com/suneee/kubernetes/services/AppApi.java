@@ -159,7 +159,7 @@ public class AppApi {
         return list;
     }
 
-    /*public Map<String,List<V1Event>> getPodEventListByName(String namespace, String name)throws ApiException{
+    public Map<String,List<V1Event>> getPodEventListByLabel(String namespace, String name)throws ApiException{
         EventApi eventApi = new EventApi();
         PodApi podApi = new PodApi();
 
@@ -182,7 +182,7 @@ public class AppApi {
         }
 
         return result;
-    }*/
+    }
 
 
 }

@@ -99,6 +99,17 @@ public class AppsV1beta1Deployment {
     spec.getTemplate().getSpec().addContainersItem(container);
   }
 
+  public AppsV1beta1Deployment clearEnv(){
+    return clearEnv(0);
+  }
+
+  public AppsV1beta1Deployment clearEnv(int index){
+    if (spec.getTemplate().getSpec().getContainers().get(index) != null){
+      spec.getTemplate().getSpec().getContainers().get(index).env(new ArrayList<V1EnvVar>());
+    }
+    return this;
+  }
+
   public AppsV1beta1Deployment addEnv(String key,String value){
     return addEnv(0,key,value);
   }

@@ -14,13 +14,12 @@
 package com.suneee.kubernetes.model.service;
 
 import com.google.gson.annotations.SerializedName;
-import com.suneee.kubernetes.constant.ServiceType;
 import com.suneee.kubernetes.custom.IntOrString;
 import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -104,6 +103,11 @@ public class V1Service {
 
   public V1Service setType(String type){
     spec.setType(type);
+    return this;
+  }
+
+  public V1Service clearPort(){
+    spec.ports(new ArrayList<V1ServicePort>());
     return this;
   }
 

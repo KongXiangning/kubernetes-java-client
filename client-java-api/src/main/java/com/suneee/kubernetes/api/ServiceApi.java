@@ -98,6 +98,29 @@ public class ServiceApi {
         return resp.getData();
     }
 
+    public V1Service updateService(String namespace,String name,V1Service service)throws ApiException{
+        if (namespace == null || namespace.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'namespace'");
+        }
+
+        if (name == null || name.isEmpty()) {
+            throw new ApiException("Missing the required parameter 'name'");
+        }
+
+        if (service ==null){
+            throw new ApiException("Missing the required parameter 'V1Service'");
+        }
+
+        String localVarPath = "/api/v1/namespaces/{namespace}/services/{name}"
+                .replaceAll("\\{namespace\\}", apiClient.escapeString(namespace))
+                .replaceAll("\\{name\\}", apiClient.escapeString(name));
+
+        Call call = apiCommon.getCallPut(localVarPath,service);
+        Type localVarReturnType = new TypeToken<V1Service>(){}.getType();
+        ApiResponse<V1Service> resp = apiClient.execute(call, localVarReturnType);
+        return resp.getData();
+    }
+
     public V1Status deleteService(String namespace, String name)throws ApiException{
         V1DeleteOptions deleteOptions = new V1DeleteOptions();
         return deleteService(namespace,name,deleteOptions);
