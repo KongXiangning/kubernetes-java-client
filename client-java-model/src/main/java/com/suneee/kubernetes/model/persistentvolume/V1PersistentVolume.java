@@ -14,11 +14,13 @@
 package com.suneee.kubernetes.model.persistentvolume;
 
 import com.google.gson.annotations.SerializedName;
+import com.suneee.kubernetes.custom.Quantity;
 import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -44,6 +46,48 @@ public class V1PersistentVolume {
 
   public V1PersistentVolume apiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
+    return this;
+  }
+
+  public V1PersistentVolume(){
+    this.apiVersion = "v1";
+    this.kind = "PersistentVolume";
+    this.metadata = new V1ObjectMeta();
+    this.spec = new V1PersistentVolumeSpec();
+  }
+
+  public V1PersistentVolume(String name){
+    this();
+    setName(name);
+  }
+
+  public V1PersistentVolume setName(String name){
+    metadata.setName(name);
+    metadata.putLabelsItem("pv",name);
+    return this;
+  }
+
+  public String getName(String name){
+    return metadata.getName();
+  }
+
+  public V1PersistentVolume setStorage(String capacity){
+    spec.putCapacityItem("storage",new Quantity(capacity));
+    return this;
+  }
+
+  public V1PersistentVolume setMonitors(String monitor){
+    spec.getCephfs().addMonitorsItem(monitor);
+    return this;
+  }
+
+  public V1PersistentVolume setMonitors(List<String> monitors){
+    spec.getCephfs().setMonitors(monitors);
+    return this;
+  }
+
+  public V1PersistentVolume setSecretRef(String ref){
+    spec.getCephfs().getSecretRef().setName(ref);
     return this;
   }
 

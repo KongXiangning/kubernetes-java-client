@@ -8,8 +8,11 @@ import com.suneee.kubernetes.http.ApiException;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
 import com.suneee.kubernetes.model.deployment.AppsV1beta1DeploymentStatus;
 import com.suneee.kubernetes.model.event.V1Event;
+import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolume;
+import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolumeClaim;
 import com.suneee.kubernetes.model.pod.V1Pod;
 import com.suneee.kubernetes.model.pod.V1PodList;
+import com.suneee.kubernetes.model.secret.V1Secret;
 import com.suneee.kubernetes.model.service.V1Service;
 import com.suneee.kubernetes.services.AppApi;
 
@@ -353,6 +356,8 @@ public class test {
         PodApi podApi = new PodApi();
         DeploymentApi deploymentApi = new DeploymentApi();
         NamespaceApi namespaceApi = new NamespaceApi();
+        SecretApi secretApi = new SecretApi();
+        VolumeApi volumeApi = new VolumeApi();
         try {
 ////            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
 ////            V1EventList eventList = eventApi.getEventList("mes-test");
@@ -374,7 +379,16 @@ public class test {
 //            }
 //            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("mes-test","system-rest1");
 //            System.out.println(deployment);
-            namespaceApi.createNamespaceDeployment("mes-test");
+//            namespaceApi.createNamespaceDeployment("mes-test");
+//            secretApi.createSecret("njxs-l","ceph-secret","key","AQAlnh9bYYnYLRAAL9RD7zNRPU0JQ6L6bxHpDA==");
+//            V1Secret secret = secretApi.getSecret("njxs-l","ceph-secret");
+//            String n = new String(secret.getData().get("key"));
+//            System.out.println(n);
+//            System.out.println(secret);
+//            V1PersistentVolumeClaim claim = volumeApi.getPersistentVolumeClaim("njxs-l","cephfs-pv-claim");
+//            System.out.println(claim);
+            V1PersistentVolume volume = volumeApi.getPersistentVolume("cephfs-pv-njxs");
+            System.out.println(volume);
         } catch (ApiException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

@@ -14,19 +14,10 @@
 package com.suneee.kubernetes.model.deployment;
 
 import com.google.gson.annotations.SerializedName;
-import com.suneee.kubernetes.custom.IntOrString;
-import com.suneee.kubernetes.custom.Quantity;
-import com.suneee.kubernetes.model.*;
-import com.suneee.kubernetes.model.container.V1Container;
-import com.suneee.kubernetes.model.container.V1ContainerPort;
+import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.xml.stream.events.Namespace;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**

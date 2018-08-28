@@ -93,7 +93,10 @@ public class JenkinsApi {
             throw new ApiException("Missing the required parameter 'jobNum'");
         }
 
-        String localVarPath = "/job/{jobName}/{jobNum}/consoleText?pretty=true"
+        /*String localVarPath = "/job/{jobName}/{jobNum}/consoleText?pretty=true"
+                .replaceAll("\\{" + "jobName" + "\\}", apiClient.escapeString(jobName))
+                .replaceAll("\\{" + "jobNum" + "\\}", apiClient.escapeString(jobNum));*/
+        String localVarPath = "/job/{jobName}/{jobNum}/logText/progressiveHtml"
                 .replaceAll("\\{" + "jobName" + "\\}", apiClient.escapeString(jobName))
                 .replaceAll("\\{" + "jobNum" + "\\}", apiClient.escapeString(jobNum));
 

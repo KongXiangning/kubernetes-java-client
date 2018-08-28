@@ -10,6 +10,8 @@ import com.suneee.kubernetes.model.endpoints.V1Endpoints;
 import com.suneee.kubernetes.model.event.V1Event;
 import com.suneee.kubernetes.model.event.V1EventList;
 import com.suneee.kubernetes.model.ingress.V1beta1Ingress;
+import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolume;
+import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolumeClaim;
 import com.suneee.kubernetes.model.pod.V1Pod;
 import com.suneee.kubernetes.model.pod.V1PodList;
 import com.suneee.kubernetes.model.service.V1Service;
@@ -184,5 +186,17 @@ public class AppApi {
         return result;
     }
 
+    public void createPVC(String namespace,String name,List<String> monitors,String capacity,String secretRef)throws ApiException{
+        VolumeApi volumeApi = new VolumeApi();
+
+        V1PersistentVolume pv = new V1PersistentVolume("pv-"+name);
+        pv.setMonitors(monitors).setStorage(capacity).setSecretRef(secretRef);
+
+        V1PersistentVolumeClaim pvc = new V1PersistentVolumeClaim(namespace,"pvc-"+name);
+        pvc.setMatchLabels("pv-"+name).setStorage(capacity);
+
+        volumeApi.createPersistentVolume(pv);
+        volumeApi.createPersistentVolumeClaim(namespace,pvc);
+    }
 
 }

@@ -47,6 +47,12 @@ public class V1CephFSPersistentVolumeSource {
   @SerializedName("user")
   private String user = null;
 
+  public V1CephFSPersistentVolumeSource(){
+    this.readOnly = false;
+    this.user = "admin";
+    this.secretRef = new V1SecretReference();
+  }
+
   public V1CephFSPersistentVolumeSource monitors(List<String> monitors) {
     this.monitors = monitors;
     return this;

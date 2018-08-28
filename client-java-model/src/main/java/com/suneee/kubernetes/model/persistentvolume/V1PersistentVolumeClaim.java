@@ -14,6 +14,7 @@
 package com.suneee.kubernetes.model.persistentvolume;
 
 import com.google.gson.annotations.SerializedName;
+import com.suneee.kubernetes.custom.Quantity;
 import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -42,8 +43,49 @@ public class V1PersistentVolumeClaim{
   @SerializedName("status")
   private V1PersistentVolumeClaimStatus status = null;
 
+  public V1PersistentVolumeClaim(){
+    this.apiVersion = "v1";
+    this.kind = "PersistentVolumeClaim";
+    this.metadata = new V1ObjectMeta();
+    this.spec = new V1PersistentVolumeClaimSpec();
+  }
+
+  public V1PersistentVolumeClaim(String namespace,String name){
+    this();
+    setNamespace(namespace);
+    setName(name);
+  }
+
+  public V1PersistentVolumeClaim setNamespace(String namespace){
+    metadata.setNamespace(namespace);
+    return this;
+  }
+
+  public String getNamespace(){
+    return metadata.getNamespace();
+  }
+
+  public V1PersistentVolumeClaim setName(String name){
+    metadata.setName(name);
+    return this;
+  }
+
+  public String getName(){
+    return metadata.getName();
+  }
+
   public V1PersistentVolumeClaim apiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
+    return this;
+  }
+
+  public V1PersistentVolumeClaim setStorage(String capacity){
+    spec.getResources().putRequestsItem("storage",new Quantity(capacity));
+    return this;
+  }
+
+  public V1PersistentVolumeClaim setMatchLabels(String pvName){
+    spec.getSelector().putMatchLabelsItem("pv",pvName);
     return this;
   }
 

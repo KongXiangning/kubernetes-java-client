@@ -126,6 +126,13 @@ public class V1PersistentVolumeSpec {
   @SerializedName("vsphereVolume")
   private V1VsphereVirtualDiskVolumeSource vsphereVolume = null;
 
+  public V1PersistentVolumeSpec(){
+    this.accessModes = new ArrayList<String>();
+    this.accessModes.add("ReadWriteMany");
+    this.persistentVolumeReclaimPolicy = "Recycle";
+    this.cephfs = new V1CephFSPersistentVolumeSource();
+  }
+
   public V1PersistentVolumeSpec accessModes(List<String> accessModes) {
     this.accessModes = accessModes;
     return this;

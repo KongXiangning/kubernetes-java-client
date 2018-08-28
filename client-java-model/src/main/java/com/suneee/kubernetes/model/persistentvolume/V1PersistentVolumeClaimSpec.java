@@ -48,6 +48,13 @@ public class V1PersistentVolumeClaimSpec {
   @SerializedName("volumeName")
   private String volumeName = null;
 
+  public V1PersistentVolumeClaimSpec(){
+    this.accessModes = new ArrayList<String>();
+    this.accessModes.add("ReadWriteMany");
+    this.resources = new V1ResourceRequirements();
+    this.selector = new V1LabelSelector();
+  }
+
   public V1PersistentVolumeClaimSpec accessModes(List<String> accessModes) {
     this.accessModes = accessModes;
     return this;
