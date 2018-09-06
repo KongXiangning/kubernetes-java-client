@@ -19,10 +19,7 @@ import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Service is a named abstraction of software service (for example, mysql) consisting of local port (for example 3306) that the proxy listens on, and the selector that determines which pods will answer requests sent through the proxy.
@@ -115,8 +112,8 @@ public class V1Service {
     return addPort(name,"TCP",port,null,null);
   }
 
-  public V1Service addPort(String name,Integer port,Integer targetPort){
-    return addPort(name,"TCP",port,targetPort,null);
+  public V1Service addPort(String name,Integer port,Integer nodePort){
+    return addPort(name,"TCP",port,port,nodePort);
   }
 
   public V1Service addPort(String name,Integer port,Integer targetPort,Integer nodePort){
@@ -136,6 +133,15 @@ public class V1Service {
     }
     spec.addPortsItem(servicePort);
     return this;
+  }
+
+  public boolean hasPorts(){
+    List<V1ServicePort> list = spec.getPorts();
+    if (list == null || list.size() == 0){
+      return false;
+    }
+    return true;
+
   }
 
    /**

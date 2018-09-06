@@ -358,6 +358,7 @@ public class test {
         NamespaceApi namespaceApi = new NamespaceApi();
         SecretApi secretApi = new SecretApi();
         VolumeApi volumeApi = new VolumeApi();
+        ServiceApi serviceApi = new ServiceApi();
         try {
 ////            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
 ////            V1EventList eventList = eventApi.getEventList("mes-test");
@@ -387,8 +388,12 @@ public class test {
 //            System.out.println(secret);
 //            V1PersistentVolumeClaim claim = volumeApi.getPersistentVolumeClaim("njxs-l","cephfs-pv-claim");
 //            System.out.println(claim);
-            V1PersistentVolume volume = volumeApi.getPersistentVolume("cephfs-pv-njxs");
-            System.out.println(volume);
+//            V1PersistentVolume volume = volumeApi.getPersistentVolume("cephfs-pv-njxs");
+//            System.out.println(volume);
+//            V1Service service = serviceApi.getServiceByName("developer-test","developplat-rest-out");
+//            System.out.println(service);
+            serviceApi.deleteService("developer-test","developplat-rest-out");
+            System.out.println("c");
         } catch (ApiException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

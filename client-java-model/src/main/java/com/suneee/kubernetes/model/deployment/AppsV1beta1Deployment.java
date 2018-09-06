@@ -20,6 +20,9 @@ import com.suneee.kubernetes.custom.Quantity;
 import com.suneee.kubernetes.model.*;
 import com.suneee.kubernetes.model.container.V1Container;
 import com.suneee.kubernetes.model.container.V1ContainerPort;
+import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolumeClaimVolumeSource;
+import com.suneee.kubernetes.model.volume.V1Volume;
+import com.suneee.kubernetes.model.volume.V1VolumeMount;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -99,11 +102,11 @@ public class AppsV1beta1Deployment {
     spec.getTemplate().getSpec().addContainersItem(container);
   }
 
-  public AppsV1beta1Deployment clearEnv(){
-    return clearEnv(0);
+  public AppsV1beta1Deployment cleanEnv(){
+    return cleanEnv(0);
   }
 
-  public AppsV1beta1Deployment clearEnv(int index){
+  public AppsV1beta1Deployment cleanEnv(int index){
     if (spec.getTemplate().getSpec().getContainers().get(index) != null){
       spec.getTemplate().getSpec().getContainers().get(index).env(new ArrayList<V1EnvVar>());
     }
@@ -207,7 +210,7 @@ public class AppsV1beta1Deployment {
     V1Container container = new V1Container();
     this.addContainer(container);
     container.setName(name);
-    container.setImage(imagesName);
+    container.setImage(imagesName.toLowerCase());
     container.setImagePullPolicy(ImagePullPolicy.Always);
     if (portList != null && portList.size()>0){
       for (Integer port : portList) {
@@ -269,7 +272,7 @@ public class AppsV1beta1Deployment {
 
   public AppsV1beta1Deployment addLivenessProbe(int index,int port,int delaySecond){
     V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(port));
-    V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(delaySecond).timeoutSeconds(30).failureThreshold(10).periodSeconds(30);
+    V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(delaySecond).timeoutSeconds(15).failureThreshold(3).periodSeconds(10);
     spec.getTemplate().getSpec().getContainers().get(index).livenessProbe(probe);
     return this;
   }
@@ -282,6 +285,56 @@ public class AppsV1beta1Deployment {
       spec.getTemplate().getSpec().getContainers().get(index).livenessProbe(null);
       return this;
   }
+
+  public AppsV1beta1Deployment cleanVolumes(){
+      return cleanVolumes(0);
+  }
+
+  public AppsV1beta1Deployment cleanVolumes(int index){
+      spec.getTemplate().getSpec().volumes(null);
+      spec.getTemplate().getSpec().getContainers().get(index).volumeMounts(null);
+      return this;
+  }
+
+  public AppsV1beta1Deployment setVolumes(String name,String claimName){
+    List<V1Volume> list = spec.getTemplate().getSpec().getVolumes();
+    boolean exists = false;
+    if (list != null && list.size() > 0){
+        for (V1Volume volume : list) {
+            if (volume.getName().equals(name)){
+                exists = true;
+            }
+        }
+    }
+    if (!exists){
+        V1PersistentVolumeClaimVolumeSource claimVolumeSource = new V1PersistentVolumeClaimVolumeSource();
+        claimVolumeSource.setClaimName(claimName);
+        V1Volume volume = new V1Volume().name(name).persistentVolumeClaim(claimVolumeSource);
+        spec.getTemplate().getSpec().addVolumesItem(volume);
+    }
+    return this;
+  }
+
+  public AppsV1beta1Deployment setVolumeMounts(String volumeName,String mountPath,String subPath){
+    return setVolumeMounts(0,volumeName,mountPath,subPath);
+  }
+
+  public AppsV1beta1Deployment setVolumeMounts(int index,String volumeName,String mountPath,String subPath){
+    V1VolumeMount mount = new V1VolumeMount().mountPath(mountPath).subPath(subPath).name(volumeName).readOnly(false);
+    spec.getTemplate().getSpec().getContainers().get(index).addVolumeMountsItem(mount);
+    return this;
+  }
+
+  public AppsV1beta1Deployment setVolumeMounts(String claimName,String volumeName,String mountPath,String subPath){
+    return setVolumeMounts(0,claimName,volumeName,mountPath,subPath);
+  }
+
+  public AppsV1beta1Deployment setVolumeMounts(int index,String claimName,String volumeName,String mountPath,String subPath){
+    setVolumes(volumeName,claimName);
+    return setVolumeMounts(index,volumeName,mountPath,subPath);
+  }
+
+
 
    /**
    * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
