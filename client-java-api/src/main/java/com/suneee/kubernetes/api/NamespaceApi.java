@@ -23,6 +23,11 @@ public class NamespaceApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public NamespaceApi(String kubernetesClientName){
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        apiCommon = new ApiCommon(apiClient);
+    }
+
     public V1NamespaceList getNamespaces() throws ApiException {
         String localVarPath = "/api/v1/namespaces/";
 

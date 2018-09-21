@@ -62,8 +62,8 @@ public class AppsV1beta1DeploymentSpec {
   }
 
   public AppsV1beta1DeploymentSpec(){
-    this.replicas = 2;
-    this.revisionHistoryLimit = 5;
+    this.replicas = 1;
+    this.revisionHistoryLimit = 3;
     strategy = new AppsV1beta1DeploymentStrategy();
     template = new V1PodTemplateSpec();
   }

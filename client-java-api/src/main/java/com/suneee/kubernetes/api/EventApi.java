@@ -24,6 +24,11 @@ public class EventApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public EventApi(String kubernetesClientName){
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        apiCommon = new ApiCommon(apiClient);
+    }
+
     public V1EventList getEventList(String namespace)throws ApiException{
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");

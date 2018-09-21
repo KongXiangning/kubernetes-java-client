@@ -26,6 +26,9 @@ public class test {
     final static String ip = "https://10.6.250.253:6443";
     final static String namespace = "njxs-test";
 
+    final static String valueTwo = "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXR3OWdkIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJkODM4MTkyYy1iYTYwLTExZTgtODEyMi0wNjM0ZTYwMDAxNjYiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.R8Kn4EDCHgVgrGK4koNYK0DZiSyyP6iEGlRzSG944lkAtNW1Co0p3AKVzEqpp_sEXuynZclVKDIRWXHtLOzo3mCcI-YYsQWH5mE_bcvYhM076kshk22h4yYc9xjeB9F6ztzO77iBsHfKI85WgTDkfb8f4r8siggH6M9vn1PbVVLemyH0XbQ-43LE9Ea0n7ySmLjdd3AzzvWf_0M5aYj2_2qhNsbDAwmQ6SBjDOlTX-N7Ohd5G3rRi9yimrpRvONX-WiqociPjncSDRxWR3y0Vr7AM7im5uUng4gmKJ37_vZoukIJRfQOM2Fw7pVMqXWpyZ1x8bFCi80qxt6BjKsvvQ";
+    final static String ipTwo = "https://10.1.11.253:6443";
+
     /*public static void main(String[] args) {
         KubernetesClient apiClient = KubernetesClient.getKubernetesClient();
         apiClient.setBasePath("https://192.168.29.100:6443");
@@ -241,10 +244,13 @@ public class test {
     }*/
 
     public static void main(String[] args) {
-        KubernetesClient kubernetesClient = KubernetesClient.getKubernetesClient();
+        /*KubernetesClient kubernetesClient = KubernetesClient.getKubernetesClient();
         kubernetesClient.setBasePath(ip);
         ApiKeyAuth BearerToken = (ApiKeyAuth) kubernetesClient.getAuthentication("BearerToken");
-        BearerToken.setApiKey(value);
+        BearerToken.setApiKey(value);*/
+
+        KubernetesClient.addKubernetesClient("first","https://10.6.250.253:6443",value);
+        KubernetesClient.addKubernetesClient("second",ipTwo,valueTwo);
 
         String namespace = "mes-test";
         /*AppsV1beta1Deployment deployment = new AppsV1beta1Deployment(namespace,"system-rest");
@@ -351,14 +357,16 @@ public class test {
             e.printStackTrace();
         }*/
 
-        EventApi eventApi = new EventApi();
+        /*EventApi eventApi = new EventApi();
         AppApi appApi = new AppApi();
         PodApi podApi = new PodApi();
         DeploymentApi deploymentApi = new DeploymentApi();
         NamespaceApi namespaceApi = new NamespaceApi();
         SecretApi secretApi = new SecretApi();
         VolumeApi volumeApi = new VolumeApi();
-        ServiceApi serviceApi = new ServiceApi();
+        ServiceApi serviceApi = new ServiceApi();*/
+        DeploymentApi deploymentApi = new DeploymentApi("first");
+        DeploymentApi deploymentApi1 = new DeploymentApi("second");
         try {
 ////            V1EventList eventList = eventApi.getEventListByName("mes-test","system-rest");
 ////            V1EventList eventList = eventApi.getEventList("mes-test");
@@ -378,8 +386,15 @@ public class test {
 //                    System.out.println(v1Event.getMessage());
 //                }
 //            }
-//            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("mes-test","system-rest1");
-//            System.out.println(deployment);
+            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("developer-pre","softhardware-rest");
+            System.out.println(deployment);
+            System.out.println("-----------------------===========================---------------------");
+            AppsV1beta1Deployment deployment1 = deploymentApi1.getNamespaceDeploymentByName("developer-produce","developplat-provider");
+            System.out.println(deployment1);
+            System.out.println("-----------------------===========================---------------------");
+
+            AppsV1beta1Deployment deployment2 = deploymentApi.getNamespaceDeploymentByName("developer-pre","softhardware-provider");
+            System.out.println(deployment2);
 //            namespaceApi.createNamespaceDeployment("mes-test");
 //            secretApi.createSecret("njxs-l","ceph-secret","key","AQAlnh9bYYnYLRAAL9RD7zNRPU0JQ6L6bxHpDA==");
 //            V1Secret secret = secretApi.getSecret("njxs-l","ceph-secret");
@@ -392,8 +407,10 @@ public class test {
 //            System.out.println(volume);
 //            V1Service service = serviceApi.getServiceByName("developer-test","developplat-rest-out");
 //            System.out.println(service);
-            serviceApi.deleteService("developer-test","developplat-rest-out");
-            System.out.println("c");
+//            serviceApi.deleteService("developer-test","developplat-rest-out");
+//            System.out.println("c");
+//            V1Pod pod = podApi.getPod("developer-pre","enterpriseresource-provider-7c97888d7-5drwh");
+//            System.out.println(pod);
         } catch (ApiException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

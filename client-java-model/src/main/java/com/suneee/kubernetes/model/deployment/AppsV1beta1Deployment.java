@@ -248,7 +248,7 @@ public class AppsV1beta1Deployment {
 
   public AppsV1beta1Deployment addReadinessProbe(int index,int port){
     V1TCPSocketAction tcpSocket = new V1TCPSocketAction().port(new IntOrString(port));
-    V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(30).timeoutSeconds(30).failureThreshold(10).periodSeconds(30);
+    V1Probe probe = new V1Probe().tcpSocket(tcpSocket).initialDelaySeconds(30).timeoutSeconds(15).failureThreshold(6).periodSeconds(30);
     spec.getTemplate().getSpec().getContainers().get(index).readinessProbe(probe);
     return this;
   }

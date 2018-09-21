@@ -23,6 +23,11 @@ public class IngressApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public IngressApi(String kubernetesClientName){
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        apiCommon = new ApiCommon(apiClient);
+    }
+
     public V1beta1IngressList getIngressList(String namespace)throws ApiException{
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");

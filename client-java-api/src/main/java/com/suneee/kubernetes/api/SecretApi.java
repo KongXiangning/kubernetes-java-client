@@ -22,6 +22,11 @@ public class SecretApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public SecretApi(String kubernetesClientName){
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        apiCommon = new ApiCommon(apiClient);
+    }
+
     public V1Secret createSecret(String namespace, String name, String key, String value)throws ApiException{
         V1Secret secret = new V1Secret(namespace,name);
         secret.setData(key,value);

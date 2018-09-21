@@ -24,6 +24,11 @@ public class PodApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public PodApi(String kubernetesClientName){
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        apiCommon = new ApiCommon(apiClient);
+    }
+
     public V1Pod getPod(String namespace,String podname) throws ApiException {
 
         if (namespace == null || namespace.isEmpty()) {

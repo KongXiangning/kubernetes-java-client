@@ -25,6 +25,11 @@ public class ServiceApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public ServiceApi(String kubernetesClientName){
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        apiCommon = new ApiCommon(apiClient);
+    }
+
     public V1ServiceList getServiceList(String namespace)throws ApiException{
         if (namespace == null || namespace.isEmpty()) {
             throw new ApiException("Missing the required parameter 'namespace'");

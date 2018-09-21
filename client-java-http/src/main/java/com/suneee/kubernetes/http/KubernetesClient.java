@@ -27,17 +27,28 @@ public class KubernetesClient implements ApiClient{
     private static OkHttpClient httpClient;
     private static KubernetesClient kubernetesClient = new KubernetesClient();
 
-    private String basePath = "https://localhost";
+    private static Map<String,KubernetesClient> clientMap = new HashMap<String,KubernetesClient>();
+
+    private String basePath;
 
     private Map<String, Authentication> authentications;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-    private JSON json;
+    private JSON json = new JSON();
     private String tempFolderPath = null;
 
     private KubernetesClient(){
-        json = new JSON();
         authentications = new HashMap<String, Authentication>();
         authentications.put("BearerToken", new ApiKeyAuth("header", "authorization"));
+        authentications = Collections.unmodifiableMap(authentications);
+        getHttpClient();
+    }
+
+    private KubernetesClient(String kubeUrl,String token){
+        basePath = kubeUrl;
+        authentications = new HashMap<String, Authentication>();
+        ApiKeyAuth apiKeyAuth = new ApiKeyAuth("header", "authorization");
+        apiKeyAuth.setApiKey(token);
+        authentications.put("BearerToken", apiKeyAuth);
         authentications = Collections.unmodifiableMap(authentications);
         getHttpClient();
     }
@@ -60,8 +71,17 @@ public class KubernetesClient implements ApiClient{
         return httpClient;
     }
 
+    public static void addKubernetesClient(String clientName,String kubeUrl,String kubeToken){
+        KubernetesClient kubernetesClient = new KubernetesClient(kubeUrl,kubeToken);
+        clientMap.put(clientName,kubernetesClient);
+    }
+
     public static KubernetesClient getKubernetesClient(){
         return kubernetesClient;
+    }
+
+    public static KubernetesClient getKubernetesClient(String name){
+        return clientMap.get(name);
     }
 
     public Authentication getAuthentication(String authName) {
@@ -102,16 +122,7 @@ public class KubernetesClient implements ApiClient{
                     return true;
                 }
             });
-            String credential = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLW54dDJtIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1NjJjMTM4MS01ZmMxLTExZTgtOWJjNC0wMDBjMjkwMmI2NTkiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.RFeYjT0ZovID2sihAO6kothjAQYCrCSqWnRl9uIiTYA-fP1l-pIKiSVRBUx8pK4XnPyEu5ORYfsIivJtx4TRJEuWmV7ad7UmPeUreD9jnYowUvkHhbkFRQExtcWSLFyGQRc7RxsLC6qDE9LHv3lBxiV_rlQ1v9LhfFpLuxTHu9ouVMZrXE-r1kcRe8hKoibMSFLoCWNt4oWB1SKnmyQyEoLg8x3Gja3HtEyz4TjOOfCQQhTf1MluMEFwExnEXT3kQyHVejiAFA-GeHU1jVG_YLqNa9l4cxb4uaath7e-DcagI4m28wu6Mnkx3qXBeeV4yVUVOAMfUH9FOc4WH3Cu9g";
-            Authenticator authenticator = new Authenticator() {
-                @Override
-                public Request authenticate(Route route, Response response) throws IOException {
-                    return response.request().newBuilder()
-                            .header("Authorization", credential)
-                            .build();
-                }
-            };
-            builder.authenticator(authenticator);
+
             OkHttpClient okHttpClient = builder.build();
             return okHttpClient;
         } catch (Exception e) {
