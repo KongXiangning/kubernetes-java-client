@@ -4,8 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
-import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.model.V1DeleteOptions;
 import com.suneee.kubernetes.model.ingress.V1beta1Ingress;
 import com.suneee.kubernetes.model.ingress.V1beta1IngressList;
@@ -26,6 +26,15 @@ public class IngressApi {
     public IngressApi(String kubernetesClientName){
         apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
         apiCommon = new ApiCommon(apiClient);
+    }
+
+    public IngressApi setClient(String kubernetesClientName)throws ApiException{
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        if (apiClient == null){
+            throw new ApiException("apiClient is null");
+        }
+        apiCommon = new ApiCommon(apiClient);
+        return this;
     }
 
     public V1beta1IngressList getIngressList(String namespace)throws ApiException{

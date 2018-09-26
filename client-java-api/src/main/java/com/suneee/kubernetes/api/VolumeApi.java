@@ -28,6 +28,15 @@ public class VolumeApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public VolumeApi setClient(String kubernetesClientName)throws ApiException{
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        if (apiClient == null){
+            throw new ApiException("apiClient is null");
+        }
+        apiCommon = new ApiCommon(apiClient);
+        return this;
+    }
+
     public V1PersistentVolume createPersistentVolume(V1PersistentVolume persistentVolume)throws ApiException{
         if (persistentVolume == null) {
             throw new ApiException("Missing the required parameter 'V1PersistentVolume'");

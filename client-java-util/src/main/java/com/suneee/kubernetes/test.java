@@ -249,7 +249,12 @@ public class test {
         ApiKeyAuth BearerToken = (ApiKeyAuth) kubernetesClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);*/
 
-        KubernetesClient.addKubernetesClient("first","https://10.6.250.253:6443",value);
+//        KubernetesClient.addKubernetesClient("first","https://10.6.250.253:6443",value);
+
+        do {
+            System.out.println(1);
+        }while (false);
+
         KubernetesClient.addKubernetesClient("second",ipTwo,valueTwo);
 
         String namespace = "mes-test";

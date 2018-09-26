@@ -42,7 +42,7 @@ public class AppApi {
     }
 
     public V1Service createEndpointService(String clusterName,String namespace,String name,String addr,Integer port)throws ApiException{
-        ServiceApi serviceApi = new ServiceApi(clusterName);
+        ServiceApi serviceApi = new ServiceApi().setClient(clusterName);
         V1Service serviceBody = new V1Service(namespace,name).addPort(null,port).setType(ServiceType.ClusterIP);
         V1Endpoints endpointsBody = new V1Endpoints(namespace,name).addSubset(addr,port);
 
@@ -63,7 +63,7 @@ public class AppApi {
     }
 
     public void deleteEndpointService(String clusterName,String namespace,String name)throws ApiException{
-        ServiceApi serviceApi = new ServiceApi(clusterName);
+        ServiceApi serviceApi = new ServiceApi().setClient(clusterName);
         serviceApi.deleteService(namespace,name);
         serviceApi.deleteEndpoint(namespace,name);
     }
@@ -105,9 +105,9 @@ public class AppApi {
     }
 
     public AppsV1beta1Deployment createDeploymentService(String clusterName,String namespace, String name, String imagesName, String host, Integer port, HashMap<String,String> envs,String limitsCpu,String limitsmem) throws ApiException {
-        DeploymentApi deploymentApi = new DeploymentApi(clusterName);
-        ServiceApi serviceApi = new ServiceApi(clusterName);
-        IngressApi ingressApi = new IngressApi(clusterName);
+        DeploymentApi deploymentApi = new DeploymentApi().setClient(clusterName);
+        ServiceApi serviceApi = new ServiceApi().setClient(clusterName);
+        IngressApi ingressApi = new IngressApi().setClient(clusterName);
 
         AppsV1beta1Deployment deploymentBody = new AppsV1beta1Deployment(namespace,name);
         deploymentBody.addContainer(name,imagesName,port,envs);
@@ -170,8 +170,8 @@ public class AppApi {
     }
 
     public AppsV1beta1Deployment createDeploymentProvider(String clusterName,String namespace, String name, String imagesName, Integer port, HashMap<String,String> envs,String limitsCpu,String limitsmem) throws ApiException {
-        DeploymentApi deploymentApi = new DeploymentApi(clusterName);
-        ServiceApi serviceApi = new ServiceApi(clusterName);
+        DeploymentApi deploymentApi = new DeploymentApi().setClient(clusterName);
+        ServiceApi serviceApi = new ServiceApi().setClient(clusterName);
 
         AppsV1beta1Deployment deploymentBody = new AppsV1beta1Deployment(namespace,name);
         deploymentBody.addContainer(name,imagesName,port,envs);
@@ -231,9 +231,9 @@ public class AppApi {
     }
 
     public void deleteDeploymentService(String clusterName,String namespace,String name) throws ApiException {
-        DeploymentApi deploymentApi = new DeploymentApi(clusterName);
-        ServiceApi serviceApi = new ServiceApi(clusterName);
-        IngressApi ingressApi = new IngressApi(clusterName);
+        DeploymentApi deploymentApi = new DeploymentApi().setClient(clusterName);
+        ServiceApi serviceApi = new ServiceApi().setClient(clusterName);
+        IngressApi ingressApi = new IngressApi().setClient(clusterName);
 
         try {
             AppsV1beta1Deployment deployment = deploymentApi.deleteNamespaceDeployment(namespace,name);
@@ -268,7 +268,7 @@ public class AppApi {
     }
 
     public void updateDeploymentNoChange(String clusterName,String namespace,String labelname)throws ApiException{
-        PodApi podApi = new PodApi(clusterName);
+        PodApi podApi = new PodApi().setClient(clusterName);
         podApi.deletePodByLabel(namespace,labelname);
     }
 
@@ -289,7 +289,7 @@ public class AppApi {
     }
 
     public List<V1Event> getPodEventListByName(String clusterName,String namespace, String name)throws ApiException{
-        EventApi eventApi = new EventApi(clusterName);
+        EventApi eventApi = new EventApi().setClient(clusterName);
 
         V1EventList eventList = eventApi.getEventList(namespace);
 
@@ -330,7 +330,7 @@ public class AppApi {
     }
 
     public Map<String,List<V1Event>> getPodEventListByLabel(String clusterName,String namespace, String name)throws ApiException{
-        EventApi eventApi = new EventApi(clusterName);
+        EventApi eventApi = new EventApi().setClient(clusterName);
         PodApi podApi = new PodApi(clusterName);
 
         V1PodList podList = podApi.getPodListByLabel(namespace,name);
@@ -369,7 +369,7 @@ public class AppApi {
     }
 
     public void createPVC(String clusterName,String namespace,String name,List<String> monitors,String capacity,String secretRef)throws ApiException{
-        VolumeApi volumeApi = new VolumeApi(clusterName);
+        VolumeApi volumeApi = new VolumeApi().setClient(clusterName);
 
         V1PersistentVolume pv = new V1PersistentVolume("pv-"+name);
         pv.setMonitors(monitors).setStorage(capacity).setSecretRef(secretRef);

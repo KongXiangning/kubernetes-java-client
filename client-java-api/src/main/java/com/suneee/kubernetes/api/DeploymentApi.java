@@ -27,6 +27,15 @@ public class DeploymentApi {
         apiCommon = new ApiCommon(apiClient);
     }
 
+    public DeploymentApi setClient(String kubernetesClientName)throws ApiException{
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        if (apiClient == null){
+            throw new ApiException("apiClient is null");
+        }
+        apiCommon = new ApiCommon(apiClient);
+        return this;
+    }
+
     public AppsV1beta1Deployment createNamespaceDeployment(String namespace, AppsV1beta1Deployment deployment) throws ApiException{
 
         if (namespace == null || namespace.isEmpty()) {

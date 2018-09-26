@@ -4,8 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import com.suneee.kubernetes.ApiResponse;
 import com.suneee.kubernetes.common.ApiCommon;
 import com.suneee.kubernetes.http.ApiClient;
-import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.http.ApiException;
+import com.suneee.kubernetes.http.KubernetesClient;
 import com.suneee.kubernetes.model.event.V1Event;
 import com.suneee.kubernetes.model.event.V1EventList;
 import okhttp3.Call;
@@ -27,6 +27,15 @@ public class EventApi {
     public EventApi(String kubernetesClientName){
         apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
         apiCommon = new ApiCommon(apiClient);
+    }
+
+    public EventApi setClient(String kubernetesClientName)throws ApiException{
+        apiClient = KubernetesClient.getKubernetesClient(kubernetesClientName);
+        if (apiClient == null){
+            throw new ApiException("apiClient is null");
+        }
+        apiCommon = new ApiCommon(apiClient);
+        return this;
     }
 
     public V1EventList getEventList(String namespace)throws ApiException{
