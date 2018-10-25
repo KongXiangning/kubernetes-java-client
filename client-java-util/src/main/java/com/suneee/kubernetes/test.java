@@ -249,7 +249,7 @@ public class test {
         ApiKeyAuth BearerToken = (ApiKeyAuth) kubernetesClient.getAuthentication("BearerToken");
         BearerToken.setApiKey(value);*/
 
-//        KubernetesClient.addKubernetesClient("first","https://10.6.250.253:6443",value);
+        KubernetesClient.addKubernetesClient("first","https://10.6.250.253:6443",value);
 
         do {
             System.out.println(1);
@@ -391,7 +391,7 @@ public class test {
 //                    System.out.println(v1Event.getMessage());
 //                }
 //            }
-            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("developer-pre","softhardware-rest");
+            AppsV1beta1Deployment deployment = deploymentApi.getNamespaceDeploymentStatusByName("developer-test","distribution-provider");
             System.out.println(deployment);
             System.out.println("-----------------------===========================---------------------");
             AppsV1beta1Deployment deployment1 = deploymentApi1.getNamespaceDeploymentByName("developer-produce","developplat-provider");

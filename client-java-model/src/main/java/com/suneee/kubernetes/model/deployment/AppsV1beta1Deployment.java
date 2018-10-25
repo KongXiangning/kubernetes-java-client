@@ -334,7 +334,15 @@ public class AppsV1beta1Deployment {
     return setVolumeMounts(index,volumeName,mountPath,subPath);
   }
 
+  public String getContainVersion(){
+    return getContainVersion(0);
+  }
 
+  public String getContainVersion(int index){
+    String imageName = spec.getTemplate().getSpec().getContainers().get(index).getImage();
+    String version = imageName.substring(imageName.indexOf(":")+1,imageName.length());
+    return version;
+  }
 
    /**
    * APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources
