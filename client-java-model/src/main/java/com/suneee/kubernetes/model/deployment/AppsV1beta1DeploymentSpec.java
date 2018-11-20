@@ -176,6 +176,14 @@ public class AppsV1beta1DeploymentSpec {
     return this;
   }
 
+  public AppsV1beta1DeploymentSpec putSelectorItem(String key,String value){
+    if (this.selector == null){
+      this.selector = new V1LabelSelector();
+    }
+    selector.putMatchLabelsItem(key,value);
+    return this;
+  }
+
    /**
    * Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment.
    * @return selector

@@ -20,9 +20,11 @@ import com.suneee.kubernetes.custom.Quantity;
 import com.suneee.kubernetes.model.*;
 import com.suneee.kubernetes.model.container.V1Container;
 import com.suneee.kubernetes.model.container.V1ContainerPort;
-import com.suneee.kubernetes.model.deployment.AppsV1beta1Deployment;
+import com.suneee.kubernetes.model.node.V1NodeAffinity;
 import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolumeClaim;
 import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolumeClaimVolumeSource;
+import com.suneee.kubernetes.model.pod.V1PodAffinity;
+import com.suneee.kubernetes.model.pod.V1PodAntiAffinity;
 import com.suneee.kubernetes.model.secret.V1SecurityContext;
 import com.suneee.kubernetes.model.volume.V1Volume;
 import com.suneee.kubernetes.model.volume.V1VolumeMount;
@@ -93,8 +95,18 @@ public class V1StatefulSet {
     return metadata.getName();
   }
 
+  public V1StatefulSet addLabel(String key,String value){
+    spec.getTemplate().getMetadata().putLabelsItem(key,value);
+    return this;
+  }
+
   public void setReplicas(Integer replicas){
     spec.setReplicas(replicas);
+  }
+
+  public V1StatefulSet putMatchLabel(String key,String label){
+    spec.putSelectorItem(key,label);
+    return this;
   }
 
 
@@ -126,6 +138,50 @@ public class V1StatefulSet {
   public V1StatefulSet addEnv(int index,String key,String value){
     if (spec.getTemplate().getSpec().getContainers().get(index) != null){
       spec.getTemplate().getSpec().getContainers().get(index).addEnvItem(new V1EnvVar(key,value));
+    }
+    return this;
+  }
+
+  public V1StatefulSet addEnvFieldRef(String key,String apiVersion,String fieldPath){
+    return addEnvFieldRef(0,key,apiVersion,fieldPath);
+  }
+
+  public V1StatefulSet addEnvFieldRef(int index,String key,String apiVersion,String fieldPath){
+    if (spec.getTemplate().getSpec().getContainers().get(index) != null){
+      spec.getTemplate().getSpec().getContainers().get(index).addEnvItem(new V1EnvVar(key,new V1EnvVarSource().setFieldRef(apiVersion,fieldPath)));
+    }
+    return this;
+  }
+
+  public V1StatefulSet addEnvConfigMapKeyRef(String key,String name,boolean optional){
+    return addEnvConfigMapKeyRef(0,key,name,optional);
+  }
+
+  public V1StatefulSet addEnvConfigMapKeyRef(int index,String key,String name,boolean optional){
+    if (spec.getTemplate().getSpec().getContainers().get(index) != null){
+      spec.getTemplate().getSpec().getContainers().get(index).addEnvItem(new V1EnvVar(key,new V1EnvVarSource().setConfigMapKeyRef(key,name,optional)));
+    }
+    return this;
+  }
+
+  public V1StatefulSet addEnvResourceFieldRef(String key,String containerName,String divisor,String resource){
+    return addEnvResourceFieldRef(0,key,containerName,divisor,resource);
+  }
+
+  public V1StatefulSet addEnvResourceFieldRef(int index,String key,String containerName,String divisor,String resource){
+    if (spec.getTemplate().getSpec().getContainers().get(index) != null){
+      spec.getTemplate().getSpec().getContainers().get(index).addEnvItem(new V1EnvVar(key,new V1EnvVarSource().setResourceFieldRef(containerName,divisor,resource)));
+    }
+    return this;
+  }
+
+  public V1StatefulSet addEnvSecretKeyRef(String key,String secretKey, String name, Boolean optional){
+    return addEnvSecretKeyRef(0,key,secretKey,name,optional);
+  }
+
+  public V1StatefulSet addEnvSecretKeyRef(int index,String key, String secretKey,String name, Boolean optional){
+    if (spec.getTemplate().getSpec().getContainers().get(index) != null){
+      spec.getTemplate().getSpec().getContainers().get(index).addEnvItem(new V1EnvVar(key,new V1EnvVarSource().setSecretKeyRef(secretKey,name,optional)));
     }
     return this;
   }
@@ -235,7 +291,10 @@ public class V1StatefulSet {
     container.addEnvItem(new V1EnvVar("TZ","Asia/Shanghai"));
 
     int index = spec.getTemplate().getSpec().getContainers().size();
-    setSecurityContext(index,0);
+    for (int i = 0; i < index; i++) {
+      setSecurityContext(i,0);
+    }
+
 
     if (resource != null) container.resources(resource);
     return this;
@@ -261,12 +320,30 @@ public class V1StatefulSet {
     return this;
   }
 
+  public V1StatefulSet setReadinessProbe(V1Probe probe){
+    return setReadinessProbe(0,probe);
+  }
+
+  public V1StatefulSet setReadinessProbe(int index,V1Probe probe){
+    spec.getTemplate().getSpec().getContainers().get(index).readinessProbe(probe);
+    return this;
+  }
+
   public V1StatefulSet deleteReadinessProbe(){
     return deleteReadinessProbe(0);
   }
 
   public V1StatefulSet deleteReadinessProbe(int index){
     spec.getTemplate().getSpec().getContainers().get(index).readinessProbe(null);
+    return this;
+  }
+
+  public V1StatefulSet setLivenessProbe(V1Probe probe){
+    return setLivenessProve(0,probe);
+  }
+
+  public V1StatefulSet setLivenessProve(int index,V1Probe probe){
+    spec.getTemplate().getSpec().getContainers().get(index).livenessProbe(probe);
     return this;
   }
 
@@ -371,6 +448,21 @@ public class V1StatefulSet {
     securityContext.setRunAsGroup(roleId);
     securityContext.setRunAsUser(roleId);
     spec.getTemplate().getSpec().getContainers().get(index).setSecurityContext(securityContext);
+    return this;
+  }
+
+  public V1StatefulSet setNodeAffinity(V1NodeAffinity nodeAffinity){
+    spec.getTemplate().getSpec().getAffinity().nodeAffinity(nodeAffinity);
+    return this;
+  }
+
+  public V1StatefulSet setPodAffinity(V1PodAffinity podAffinity){
+    spec.getTemplate().getSpec().getAffinity().podAffinity(podAffinity);
+    return this;
+  }
+
+  public V1StatefulSet setPodAntiAffinity(V1PodAntiAffinity podAntiAffinity){
+    spec.getTemplate().getSpec().getAffinity().podAntiAffinity(podAntiAffinity);
     return this;
   }
 

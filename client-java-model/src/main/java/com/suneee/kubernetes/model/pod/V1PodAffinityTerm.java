@@ -27,7 +27,6 @@ import java.util.Objects;
  * Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key &lt;topologyKey&gt; matches that of any node on which a pod of the set of pods is running
  */
 @ApiModel(description = "Defines a set of pods (namely those matching the labelSelector relative to the given namespace(s)) that this pod should be co-located (affinity) or not co-located (anti-affinity) with, where co-located is defined as running on a node whose value of the label with key <topologyKey> matches that of any node on which a pod of the set of pods is running")
-
 public class V1PodAffinityTerm {
   @SerializedName("labelSelector")
   private V1LabelSelector labelSelector = null;
@@ -38,8 +37,22 @@ public class V1PodAffinityTerm {
   @SerializedName("topologyKey")
   private String topologyKey = null;
 
+  public V1PodAffinityTerm(){
+    this.labelSelector = new V1LabelSelector();
+  }
+
   public V1PodAffinityTerm labelSelector(V1LabelSelector labelSelector) {
     this.labelSelector = labelSelector;
+    return this;
+  }
+
+  public V1PodAffinityTerm putLabelSelectorMatchExpressions(String key,String operator,String... values){
+    labelSelector.putMatchExpressionsItem(key,operator,values);
+    return this;
+  }
+
+  public V1PodAffinityTerm putLabelSelectorMatchLabels(String key,String value){
+    labelSelector.putMatchLabelsItem(key,value);
     return this;
   }
 

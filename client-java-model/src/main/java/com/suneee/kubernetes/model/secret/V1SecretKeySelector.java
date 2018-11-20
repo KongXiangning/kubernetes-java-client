@@ -35,6 +35,14 @@ public class V1SecretKeySelector {
   @SerializedName("optional")
   private Boolean optional = null;
 
+  public V1SecretKeySelector(){}
+
+  public V1SecretKeySelector(String key, String name, Boolean optional) {
+    this.key = key;
+    this.name = name;
+    this.optional = optional;
+  }
+
   public V1SecretKeySelector key(String key) {
     this.key = key;
     return this;

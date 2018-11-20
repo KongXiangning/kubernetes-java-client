@@ -20,7 +20,10 @@ import com.suneee.kubernetes.custom.Quantity;
 import com.suneee.kubernetes.model.*;
 import com.suneee.kubernetes.model.container.V1Container;
 import com.suneee.kubernetes.model.container.V1ContainerPort;
+import com.suneee.kubernetes.model.node.V1NodeAffinity;
 import com.suneee.kubernetes.model.persistentvolume.V1PersistentVolumeClaimVolumeSource;
+import com.suneee.kubernetes.model.pod.V1PodAffinity;
+import com.suneee.kubernetes.model.pod.V1PodAntiAffinity;
 import com.suneee.kubernetes.model.volume.V1Volume;
 import com.suneee.kubernetes.model.volume.V1VolumeMount;
 import io.swagger.annotations.ApiModel;
@@ -90,8 +93,18 @@ public class AppsV1beta1Deployment {
     spec.getTemplate().getMetadata().setLabels(labelsspec);
   }
 
+  public AppsV1beta1Deployment addLabel(String key,String value){
+    spec.getTemplate().getMetadata().putLabelsItem(key,value);
+    return this;
+  }
+
   public void setReplicas(Integer replicas){
     spec.setReplicas(replicas);
+  }
+
+  public AppsV1beta1Deployment putMatchLabel(String key,String label){
+    spec.putSelectorItem(key,label);
+    return this;
   }
 
   public void setRevisionHistoryLimit(Integer revisionHistoryLimit){
@@ -284,6 +297,21 @@ public class AppsV1beta1Deployment {
   public AppsV1beta1Deployment deleteLivenessProbe(int index){
       spec.getTemplate().getSpec().getContainers().get(index).livenessProbe(null);
       return this;
+  }
+
+  public AppsV1beta1Deployment setNodeAffinity(V1NodeAffinity nodeAffinity){
+    spec.getTemplate().getSpec().getAffinity().nodeAffinity(nodeAffinity);
+    return this;
+  }
+
+  public AppsV1beta1Deployment setPodAffinity(V1PodAffinity podAffinity){
+    spec.getTemplate().getSpec().getAffinity().podAffinity(podAffinity);
+    return this;
+  }
+
+  public AppsV1beta1Deployment setPodAntiAffinity(V1PodAntiAffinity podAntiAffinity){
+    spec.getTemplate().getSpec().getAffinity().podAntiAffinity(podAntiAffinity);
+    return this;
   }
 
   public AppsV1beta1Deployment cleanVolumes(){

@@ -19,7 +19,6 @@ import com.suneee.kubernetes.model.V1ObjectMeta;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -72,6 +71,11 @@ public class V1PersistentVolumeClaim{
 
   public String getName(){
     return metadata.getName();
+  }
+
+  public V1PersistentVolumeClaim putLabel(String key, String value){
+    metadata.putLabelsItem(key,value);
+    return this;
   }
 
   public V1PersistentVolumeClaim apiVersion(String apiVersion) {

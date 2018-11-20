@@ -381,4 +381,20 @@ public class AppApi {
         volumeApi.createPersistentVolumeClaim(namespace,pvc);
     }
 
+    public void createPVCStatefulSet(String clusterName,String namespace,String data,String name,List<String> monitors,String capacity,String secretRef)throws ApiException{
+        VolumeApi volumeApi = new VolumeApi().setClient(clusterName);
+
+        V1PersistentVolume pv = new V1PersistentVolume(data+"-"+namespace+"-"+name);
+        pv.setMonitors(monitors).setStorage(capacity).setSecretRef(secretRef);
+
+        V1PersistentVolumeClaim pvc = new V1PersistentVolumeClaim(namespace,data+"-"+namespace+"-"+name);
+        pvc.putLabel("app",name);
+        pvc.putLabel("release",namespace);
+        pvc.putLabel("role","master");
+        pvc.setMatchLabels(data+"-"+namespace+"-"+name).setStorage(capacity);
+
+        volumeApi.createPersistentVolume(pv);
+        volumeApi.createPersistentVolumeClaim(namespace,pvc);
+    }
+
 }

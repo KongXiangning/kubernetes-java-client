@@ -37,6 +37,13 @@ public class V1ObjectFieldSelector {
     return this;
   }
 
+  public V1ObjectFieldSelector(){}
+
+  public V1ObjectFieldSelector(String apiVersion,String fieldPath){
+    this.apiVersion = apiVersion;
+    this.fieldPath = fieldPath;
+  }
+
    /**
    * Version of the schema the FieldPath is written in terms of, defaults to \&quot;v1\&quot;.
    * @return apiVersion

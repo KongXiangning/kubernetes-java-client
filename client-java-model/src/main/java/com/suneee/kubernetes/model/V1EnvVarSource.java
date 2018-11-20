@@ -58,6 +58,11 @@ public class V1EnvVarSource {
     this.configMapKeyRef = configMapKeyRef;
   }
 
+  public V1EnvVarSource setConfigMapKeyRef(String key,String name,boolean optional){
+    this.configMapKeyRef = new V1ConfigMapKeySelector(key,name,optional);
+    return this;
+  }
+
   public V1EnvVarSource fieldRef(V1ObjectFieldSelector fieldRef) {
     this.fieldRef = fieldRef;
     return this;
@@ -74,6 +79,11 @@ public class V1EnvVarSource {
 
   public void setFieldRef(V1ObjectFieldSelector fieldRef) {
     this.fieldRef = fieldRef;
+  }
+
+  public V1EnvVarSource setFieldRef(String apiVersion,String fieldPath){
+    this.fieldRef = new V1ObjectFieldSelector(apiVersion,fieldPath);
+    return this;
   }
 
   public V1EnvVarSource resourceFieldRef(V1ResourceFieldSelector resourceFieldRef) {
@@ -94,6 +104,11 @@ public class V1EnvVarSource {
     this.resourceFieldRef = resourceFieldRef;
   }
 
+  public V1EnvVarSource setResourceFieldRef(String containerName,String divisor,String resource){
+    this.resourceFieldRef = new V1ResourceFieldSelector(containerName,divisor,resource);
+    return this;
+  }
+
   public V1EnvVarSource secretKeyRef(V1SecretKeySelector secretKeyRef) {
     this.secretKeyRef = secretKeyRef;
     return this;
@@ -112,6 +127,10 @@ public class V1EnvVarSource {
     this.secretKeyRef = secretKeyRef;
   }
 
+  public V1EnvVarSource setSecretKeyRef(String key, String name, Boolean optional){
+    this.secretKeyRef = new V1SecretKeySelector(key,name,optional);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

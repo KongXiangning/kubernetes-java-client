@@ -35,6 +35,14 @@ public class V1ConfigMapKeySelector {
   @SerializedName("optional")
   private Boolean optional = null;
 
+  public V1ConfigMapKeySelector(){}
+
+  public V1ConfigMapKeySelector(String key,String name,boolean optional){
+    this.key = key;
+    this.name = name;
+    this.optional = optional;
+  }
+
   public V1ConfigMapKeySelector key(String key) {
     this.key = key;
     return this;

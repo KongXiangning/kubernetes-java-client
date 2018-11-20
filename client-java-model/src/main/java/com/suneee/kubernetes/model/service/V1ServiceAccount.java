@@ -21,9 +21,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * ServiceAccount binds together: * a name, understood by users, and perhaps by peripheral systems, for an identity * a principal that can be authenticated and authorized * a set of secrets
@@ -51,6 +49,40 @@ public class V1ServiceAccount {
 
   public V1ServiceAccount apiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
+    return this;
+  }
+
+  public V1ServiceAccount(){
+    this.apiVersion = "v1";
+    this.kind = "ServiceAccount";
+    this.metadata = new V1ObjectMeta();
+  }
+
+  public V1ServiceAccount(String namespace,String name){
+    this();
+    setNamespace(namespace);
+    setName(name);
+  }
+
+  public void setNamespace(String namespace){
+    metadata.setNamespace(namespace);
+  }
+
+  public String getNamespace(){
+    return metadata.getNamespace();
+  }
+
+  public void setName(String name){
+    metadata.setName(name);
+    metadata.putLabelsItem("app",name);
+  }
+
+  public String getName(){
+    return metadata.getName();
+  }
+
+  public V1ServiceAccount addLabel(String key,String value){
+    metadata.putLabelsItem(key,value);
     return this;
   }
 

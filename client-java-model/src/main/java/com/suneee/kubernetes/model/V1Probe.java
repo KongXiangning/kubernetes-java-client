@@ -68,6 +68,15 @@ public class V1Probe {
     this.exec = exec;
   }
 
+  public void setExec(String... commond){
+    if (this.exec == null){
+      this.exec = new V1ExecAction();
+    }
+    for (String s : commond) {
+      this.exec.addCommandItem(s);
+    }
+  }
+
   public V1Probe failureThreshold(Integer failureThreshold) {
     this.failureThreshold = failureThreshold;
     return this;

@@ -35,6 +35,14 @@ public class V1ResourceFieldSelector {
   @SerializedName("resource")
   private String resource = null;
 
+  public V1ResourceFieldSelector(){}
+
+  public V1ResourceFieldSelector(String containerName,String divisor,String resource){
+    this.containerName = containerName;
+    this.divisor = divisor;
+    this.resource = resource;
+  }
+
   public V1ResourceFieldSelector containerName(String containerName) {
     this.containerName = containerName;
     return this;

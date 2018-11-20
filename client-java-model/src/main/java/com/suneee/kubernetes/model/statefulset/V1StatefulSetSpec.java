@@ -59,6 +59,13 @@ public class V1StatefulSetSpec {
     return this;
   }
 
+  public V1StatefulSetSpec(){
+    this.replicas = 1;
+    this.revisionHistoryLimit = 3;
+    template = new V1PodTemplateSpec();
+    updateStrategy = new V1StatefulSetUpdateStrategy();
+  }
+
    /**
    * podManagementPolicy controls how pods are created during initial scale up, when replacing pods on nodes, or when scaling down. The default policy is &#x60;OrderedReady&#x60;, where pods are created in increasing order (pod-0, then pod-1, etc) and the controller will wait until each pod is ready before continuing. When scaling down, the pods are removed in the opposite order. The alternative policy is &#x60;Parallel&#x60; which will create pods in parallel to match the desired scale without waiting, and on scale down will delete all pods at once.
    * @return podManagementPolicy
@@ -110,6 +117,14 @@ public class V1StatefulSetSpec {
 
   public V1StatefulSetSpec selector(V1LabelSelector selector) {
     this.selector = selector;
+    return this;
+  }
+
+  public V1StatefulSetSpec putSelectorItem(String key,String value){
+    if (this.selector == null){
+      this.selector = new V1LabelSelector();
+    }
+    selector.putMatchLabelsItem(key,value);
     return this;
   }
 

@@ -45,6 +45,11 @@ public class V1EnvVar {
     this.value = value;
   }
 
+  public V1EnvVar(String name,V1EnvVarSource envVarSource){
+    this.name = name;
+    this.valueFrom = envVarSource;
+  }
+
    /**
    * Name of the environment variable. Must be a C_IDENTIFIER.
    * @return name

@@ -45,6 +45,20 @@ public class V1LabelSelector{
     return this;
   }
 
+  public V1LabelSelector putMatchExpressionsItem(String key,String operator,String... values){
+    if (this.matchExpressions == null) {
+      this.matchExpressions = new ArrayList<V1LabelSelectorRequirement>();
+    }
+    V1LabelSelectorRequirement matchExpressionsItem = new V1LabelSelectorRequirement();
+    matchExpressionsItem.setKey(key);
+    matchExpressionsItem.setOperator(operator);
+    for (String value : values) {
+      matchExpressionsItem.addValuesItem(value);
+    }
+    this.matchExpressions.add(matchExpressionsItem);
+    return this;
+  }
+
    /**
    * matchExpressions is a list of label selector requirements. The requirements are ANDed.
    * @return matchExpressions
